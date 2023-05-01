@@ -1,6 +1,7 @@
 <h1>Chefster Web App</h1>
 
 <h2>Schema:</h2>
+<h3>Entities:</h3>
 
 **Users:**
 | Column | Type |
@@ -17,7 +18,7 @@
 | ID | STRING/UUID |
 | Title | STRING |
 | Instructions | STRING |
-| Ingridiences | STRING [] |
+| Ingredients | STRING [] |
 | Cusine | STRING |
 | UserID |  STRING/UUID |
 | PostedAt | Timestamp | 
