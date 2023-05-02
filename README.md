@@ -12,24 +12,24 @@
 | Password | STRING |
 | Email | STRING |
 
-**Recipes:**
+**Recipe:**
 | Column | Type |
 |--------|-----|
 | ID | STRING/UUID |
 | Title | STRING |
 | Instructions | STRING |
 | Ingredients | STRING [] |
-| Cusine | STRING |
+| Cuisine | STRING |
 | UserID |  STRING/UUID |
 | PostedAt | Timestamp | 
 
-**Likes:**
+**Like:**
 | Column | Type |
 |--------|-----|
 | UserID | STRING/UUID |
 | RecipeID | STRING/UUID | 
 
-**Comments:**
+**Comment:**
 | Column | Type |
 |--------|-----|
 | ID | STRING |
