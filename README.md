@@ -1,4 +1,4 @@
-<h1>Chefster Web App</h1>
+<h1>Chefster Web App <img src="https://github.com/miraehab/Chefster-Web-App/blob/main/logo.png" height="80"/></h1>
 
 <h2>Schema:</h2>
 <h3>Entities:</h3>
