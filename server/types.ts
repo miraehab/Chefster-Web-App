@@ -1,3 +1,5 @@
+import { RequestHandler } from "express";
+
 export interface User{
     id: string;
     firstName: string;
@@ -12,7 +14,7 @@ export interface Recipe{
     title: string;
     instructions: string;
     ingredients: [];
-    Cuisine: string;
+    cuisine: string;
     userId: string;
     postedAt: number
 }
@@ -29,3 +31,11 @@ export interface Comment{
     comment: string;
     postedAt: number
 }
+
+// to ensure the types of the request and response
+export type ExpressHandler<Req, Res> = RequestHandler<
+string,
+Partial<Res>,
+Partial<Req>,
+any
+>

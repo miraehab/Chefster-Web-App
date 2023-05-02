@@ -1,5 +1,6 @@
 import express, {RequestHandler} from "express";
 import {db} from "./datastore/index"
+import {getRecipesController, createRecipe} from "./Handlers/recipeHandler"
 
 const app = express();
 
@@ -13,15 +14,9 @@ const RequestLoggerMiddleware : RequestHandler = (req, res, next) => {
 
 app.use(RequestLoggerMiddleware);
 
-app.get('/recipes', (req, res) => {
-    res.send({recipes: db.listAllRecipes()})
-})
+app.get('/recipes', getRecipesController)
 
-app.post('/recipes', (req, res) => {
-    const recipe = req.body;
-    db.createRecipe(recipe);
-    res.sendStatus(200);
-})
+app.post('/recipes', createRecipe)
 
 app.listen(3000, ()=>{
     console.log("App is listening on port 3000!")
