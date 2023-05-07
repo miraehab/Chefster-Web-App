@@ -45,6 +45,7 @@ Cook, share, and discover with Chefster
 | ID | STRING/UUID |
 | GroupName | STRING |
 | GroupCreatorID | STRING/UUID |
+| IsPrivate | Bool |
 
 **JoinGroup:**
 | Column | Type |

@@ -35,12 +35,13 @@ export interface Comment{
 export interface Group{
     id: string;
     groupName: string;
-    groupCreatorID: string
+    groupCreatorID: string;
+    isPrivate: boolean;
 }
 
 export interface JoinGroup{
     userId: string;
-    groupId: string
+    groupId: string;
 }
 
 // to ensure the types of the request and response

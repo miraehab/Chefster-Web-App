@@ -6,6 +6,6 @@ import {Recipe} from "../types"
 export interface RecipeDao{
     listAllRecipes() : Recipe[];
     createRecipe(recipe : Recipe) : void;
-    getRecipe(id : string) : Recipe | undefined;
+    getRecipeById(id : string) : Recipe | undefined;
     deleteRecipe(id : string) : void;
 }
