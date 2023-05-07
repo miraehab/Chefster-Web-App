@@ -42,8 +42,8 @@ Cook, share, and discover with Chefster
 **Group:**
 | Column | Type |
 |--------|-----|
+| ID | STRING/UUID |
 | GroupName | STRING |
-| GroupID | STRING/UUID |
 | GroupCreatorID | STRING/UUID |
 
 **JoinGroup:**

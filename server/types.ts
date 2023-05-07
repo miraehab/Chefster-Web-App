@@ -32,6 +32,17 @@ export interface Comment{
     postedAt: number
 }
 
+export interface Group{
+    id: string;
+    groupName: string;
+    groupCreatorID: string
+}
+
+export interface JoinGroup{
+    userId: string;
+    groupId: string
+}
+
 // to ensure the types of the request and response
 export type ExpressHandler<Req, Res> = RequestHandler<
 string,
