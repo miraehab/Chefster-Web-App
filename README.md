@@ -4,7 +4,7 @@ Cook, share, and discover with Chefster
 <h2>Schema:</h2>
 <h3>Entities:</h3>
 
-**Users:**
+**User:**
 | Column | Type |
 |--------|-----|
 | ID | STRING/UUID |
@@ -38,3 +38,16 @@ Cook, share, and discover with Chefster
 | RecipeID | STRING/UUID |
 | Comment | STRING |
 | PostedAt | Timestamp | 
+
+**Group:**
+| Column | Type |
+|--------|-----|
+| GroupName | STRING |
+| GroupID | STRING/UUID |
+| GroupCreatorID | STRING/UUID |
+
+**JoinGroup:**
+| Column | Type |
+|--------|-----|
+| UserID | STRING/UUID |
+| GroupID | STRING/UUID |
