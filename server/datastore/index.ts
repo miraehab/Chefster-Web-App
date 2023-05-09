@@ -1,10 +1,12 @@
-import {UserDao} from "./UserDao"
-import {CommentDao} from "./CommentDao"
-import {LikeDao} from "./LikeDao"
-import {RecipeDao} from "./RecipeDao"
+import {UserDao} from "./dao/UserDao"
+import {CommentDao} from "./dao/CommentDao"
+import {LikeDao} from "./dao/LikeDao"
+import {RecipeDao} from "./dao/RecipeDao"
 import { InMemory } from "./memorydb"
+import { GroupDao } from "./dao/GroupDao"
+import { JoinGroupDao } from "./dao/JoinGroupDao"
 
-export interface DataStore extends UserDao, RecipeDao, CommentDao, LikeDao{}
+export interface DataStore extends UserDao, RecipeDao, CommentDao, LikeDao, GroupDao, JoinGroupDao{}
 
 // Singelton -> one class object.
 export const db = new InMemory();

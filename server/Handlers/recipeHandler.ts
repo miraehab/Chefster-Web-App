@@ -6,13 +6,13 @@ import { ExpressHandler } from "../types"
 import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse} from '../api'
 
 // It means that the request and response are empty.
-export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListAllRecipesResponse> = (req, res) => {
+export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListAllRecipesResponse> = async (req, res) => {
     // we don't return the list directly as we want the API design to be flexible in case we wanted to add other infos
     // example: res.send({recipes: db.listAllRecipes(), number_lists: ... })
-    return res.send({recipes: db.listAllRecipes()});
+    return res.send({recipes: await db.listAllRecipes()});
 }
 
-export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = (req, res) => {
+export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
     if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.userId || !req.body.ingredients){
         return res.sendStatus(400);
     }else{
@@ -25,7 +25,7 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             cuisine: req.body.cuisine,
             userId: req.body.userId
         };
-        db.createRecipe(recipe);
+        await db.createRecipe(recipe);
         return res.sendStatus(200);
     }
 }

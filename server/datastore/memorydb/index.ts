@@ -10,77 +10,88 @@ export class InMemory implements DataStore{
     private joinGroups : JoinGroup[] = [];
 
     // UserDao Methodes
-    createUser(user: User): void {
+    createUser(user: User): Promise<void> {
         this.users.push(user);
+        // if the return type is void
+        return Promise.resolve();
     }
-    getUserByEmail(email: string): User | undefined {
-        return this.users.find(u => u.email == email);
+    getUserByEmail(email: string): Promise<User | undefined> {
+        return Promise.resolve(this.users.find(u => u.email == email));
     }
-    getUserByUsername(username: string): User | undefined {
-        return this.users.find(u => u.username == username);
+    getUserByUsername(username: string): Promise<User | undefined> {
+        return Promise.resolve(this.users.find(u => u.username == username));
     }
-    joinGroup(joinedGroup : JoinGroup) : void {
+    joinGroup(joinedGroup : JoinGroup) : Promise<void> {
         this.joinGroups.push(joinedGroup);
+        return Promise.resolve()
     }
     // RecipeDao Methodes
-    listAllRecipes(): Recipe[] {
-        return this.recipes;
+    listAllRecipes(): Promise<Recipe[]> {
+        return Promise.resolve(this.recipes);
     }
-    createRecipe(recipe: Recipe): void {
+    createRecipe(recipe: Recipe): Promise<void> {
         this.recipes.push(recipe);
+        return Promise.resolve()
     }
-    getRecipeById(id: string): Recipe | undefined {
-        return this.recipes.find(r => r.id == id);
+    getRecipeById(id: string): Promise<Recipe | undefined> {
+        return Promise.resolve(this.recipes.find(r => r.id == id));
     }
-    deleteRecipe(id: string): void {
+    deleteRecipe(id: string): Promise<void> {
         const index = this.recipes.findIndex(r => r.id == id);
-        if(index == -1) return;
+        if(index == -1) return Promise.resolve();
 
         // Remove one item in this index
         this.recipes.splice(index, 1);
+        return Promise.resolve();
     }
     // CommentDao Methodes
-    createComment(comment: Comment): void {
+    createComment(comment: Comment): Promise<void> {
         this.comments.push(comment);
+        return Promise.resolve();
     }
-    listAllComments(recipeID: string): Comment[] {
-        return this.comments.filter(c => c.recipeId == recipeID);
+    listAllComments(recipeID: string): Promise<Comment[]> {
+        return Promise.resolve(this.comments.filter(c => c.recipeId == recipeID));
     }
-    deleteComment(id: string): void {
+    deleteComment(id: string): Promise<void> {
         const index = this.comments.findIndex(c => c.id == id);
-        if(index == -1) return;
+        if(index == -1) return Promise.resolve();
 
         this.comments.splice(index, 1);
+        return Promise.resolve();
     }
     // LikeDao Methodes
-    createLike(like: Like): void {
+    createLike(like: Like): Promise<void> {
         this.likes.push(like);
+        return Promise.resolve();
     }
     // GroupDao Methodes
-    createGroup(group : Group) : void{
+    createGroup(group : Group) : Promise<void>{
         this.groups.push(group);
+        return Promise.resolve();
     }
-    getGroupById(id : string) : Group | undefined{
-        return this.groups.find(g => g.id == id);
+    getGroupById(id : string) : Promise<Group | undefined>{
+        return Promise.resolve(this.groups.find(g => g.id == id));
     }
-    listAllGroups() : Group[]{
+    listAllGroups() : Promise<Group[]>{
         //returns only the public groups
-        return this.groups.filter(g => g.isPrivate != true);
+        return Promise.resolve(this.groups.filter(g => g.isPrivate != true));
     }
-    listMyGroups(userId : string) : Group[] {
+    listMyGroups(userId : string) : Promise<Group[]> {
         //TODO: Return the Groups joined me the logged in user only
-        return this.groups
+        return Promise.resolve(this.groups)
     }
-    deleteGroup(id : string) : void{
+    deleteGroup(id : string) : Promise<void>{
+        //TODO
         const index = this.groups.findIndex(g => g.id == id);
+        return Promise.resolve()
     }
     //JoinGroupDao Methodes
-    createJoinGroup(groupId : string, userId : string) : JoinGroup{
+    createJoinGroup(groupId : string, userId : string) : Promise<JoinGroup>{
         const obj: JoinGroup = {
             userId: userId,
             groupId: groupId
         }
 
-        return obj;
+        return Promise.resolve(obj);
     }
 }
