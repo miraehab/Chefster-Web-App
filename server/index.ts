@@ -2,6 +2,7 @@ import express, {RequestHandler} from "express";
 import {db} from "./datastore/index"
 import {listAllRecipesHandler, createRecipeHandler} from "./handlers/recipeHandler"
 import {errorHandler} from './handlers/errorHandler'
+import asyncHandler from "express-async-handler"
 
 const app = express();
 
@@ -15,8 +16,8 @@ const RequestLoggerMiddleware : RequestHandler = (req, res, next) => {
 
 app.use(RequestLoggerMiddleware);
 
-app.get('/recipes', listAllRecipesHandler)
-app.post('/recipes', createRecipeHandler)
+app.get('/recipes', asyncHandler(listAllRecipesHandler))
+app.post('/recipes', asyncHandler(createRecipeHandler))
 
 app.use(errorHandler)
 
