@@ -10,6 +10,7 @@ COPY . .
  
 # install dependencies
 RUN npm install
+RUN apk add --no-cache bash
 
 # To specify the port on which our server will be listening
 # needed to run the container inside the docker desktop to do port mapping
