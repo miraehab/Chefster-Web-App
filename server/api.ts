@@ -6,7 +6,7 @@ export interface ListAllRecipesResponse {
     recipes: Recipe[];
 }
 
-export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'ingredients' | 'cuisine' | 'userId'>;
+export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine' | 'userId'>;
 export interface CreateRecipeResponse {}
 
 export interface GetRecipeRequest {}

@@ -13,7 +13,7 @@ export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListA
 }
 
 export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
-    if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.userId || !req.body.ingredients){
+    if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.userId){
         return res.sendStatus(400);
     }else{
         const recipe : Recipe = {
@@ -21,7 +21,6 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             postedAt: Date.now(),
             title: req.body.title,
             instructions: req.body.instructions,
-            ingredients: req.body.ingredients,
             cuisine: req.body.cuisine,
             userId: req.body.userId
         };
