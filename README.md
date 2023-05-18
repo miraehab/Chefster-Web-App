@@ -19,10 +19,21 @@ Cook, share, and discover with Chefster
 | ID | STRING/UUID |
 | Title | STRING |
 | Instructions | STRING |
-| Ingredients | STRING [] |
 | Cuisine | STRING |
 | UserID |  STRING/UUID |
 | PostedAt | Timestamp | 
+
+**Ingredient:**
+| Column | Type |
+|--------|-----|
+| ID | STRING/UUID |
+| Ingredient | STRING |
+
+**RecipeIngredient:**
+| Column | Type |
+|--------|-----|
+| RecipeID | STRING/UUID | 
+| IngredientID | STRING/UUID | 
 
 **Like:**
 | Column | Type |

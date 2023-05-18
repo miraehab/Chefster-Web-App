@@ -1,0 +1,15 @@
+CREATE TABLE [User](
+    id VARCHAR PRIMARY KEY,
+    firstName VARCHAR NOT NULL,
+    lastName VARCHAR NOT NULL,
+    userName VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NOT NULL,
+    email VARCHAR UNIQUE,
+);
+
+CREATE TABLE RECIPE(
+    id VARCHAR PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    instruction VARCHAR NOT NULL,
+    
+);

@@ -9,4 +9,8 @@ import { JoinGroupDao } from "./dao/JoinGroupDao"
 export interface DataStore extends UserDao, RecipeDao, CommentDao, LikeDao, GroupDao, JoinGroupDao{}
 
 // Singelton -> one class object.
-export const db = new InMemory();
+export let db : DataStore; 
+
+export async function initDb(){
+    db = new InMemory();
+}

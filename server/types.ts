@@ -13,10 +13,19 @@ export interface Recipe{
     id: string;
     title: string;
     instructions: string;
-    ingredients: [];
     cuisine: string;
     userId: string;
     postedAt: number
+}
+
+export interface Ingredient{
+    id: string,
+    ingrdient: string
+}
+
+export interface RecipeIngredient{
+    recipeId: string;
+    ingrdientId: string
 }
 
 export interface Like{
