@@ -58,12 +58,15 @@ export class sqlDataStore implements DataStore{
 
     // IngredientDao Methodes
     async createIngredient(ingredient : Ingredient) : Promise<void>{
-        await this.db.run('INSERT INTO Ingredient (id, ingrdient) VALUES (?, ?)', ingredient.id, ingredient.ingredientName);
+        await this.db.run('INSERT INTO Ingredient (id, ingredient) VALUES (?, ?)', ingredient.id, ingredient.ingredientName);
+    }
+    getIngredient(ingredientName : string) : Promise<Ingredient | undefined>{
+        return this.db.get<Ingredient>('SELECT * FROM Ingredient as i WHERE i.ingredient = (?)', ingredientName);
     }
 
     // RecipeIgredientDao Methodes
     async createRecipeIngredient(recipeIngredient : RecipeIngredient) : Promise<void>{
-        await this.db.run('INSERT INTO RecipeIngredient (recipeId, ingrdientId) VALUES (?, ?)', recipeIngredient.recipeId, recipeIngredient.ingrdientId)
+        await this.db.run('INSERT INTO RecipeIngredient (recipeId, ingredientId) VALUES (?, ?)', recipeIngredient.recipeId, recipeIngredient.ingredientId)
     }
 
     // CommentDao Methodes

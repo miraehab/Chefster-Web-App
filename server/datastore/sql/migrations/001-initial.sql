@@ -14,26 +14,26 @@ CREATE TABLE Recipe(
  cusine VARCHAR NOT NULL,
  userId VARCHAR NOT NULL,
  postedAt INTEGER NOT NULL,
- FOREIGN KEY (userId) REFERENCES [User](id)
+ FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE SET NULL
 );
 
 CREATE TABLE Ingredient(
  id VARCHAR PRIMARY KEY,
- ingrdient VARCHAR NOT NULL
+ ingredient VARCHAR NOT NULL
 );
 
 CREATE TABLE RecipeIngredient(
  recipeId VARCHAR,
- ingrdientId VARCHAR,
+ ingredientId VARCHAR,
  FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
- FOREIGN KEY (ingrdientId) REFERENCES Ingredient(id)
+ FOREIGN KEY (ingredientId) REFERENCES Ingredient(id) ON DELETE CASCADE
 );
 
 CREATE TABLE [Like](
  userId VARCHAR,
  recipeId VARCHAR,
  FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
- FOREIGN KEY (userId) REFERENCES [User](id)
+ FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE CASCADE
 );
 
 CREATE TABLE Comment(
@@ -43,7 +43,7 @@ CREATE TABLE Comment(
  comment VARCHAR NOT NULL,
  postedAt INTEGER NOT NULL,
  FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
- FOREIGN KEY (userId) REFERENCES [User](id)
+ FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE CASCADE
 );
 
 CREATE TABLE [Group](
@@ -57,6 +57,6 @@ CREATE TABLE [Group](
 CREATE TABLE JoinGroup(
  userId VARCHAR,
  groupId VARCHAR,
- FOREIGN KEY (userId) REFERENCES [User](id),
- FOREIGN KEY (groupId) REFERENCES [Group](id)
+ FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE CASCADE,
+ FOREIGN KEY (groupId) REFERENCES [Group](id) ON DELETE CASCADE
 );

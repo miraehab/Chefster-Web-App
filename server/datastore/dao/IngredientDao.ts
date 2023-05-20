@@ -5,4 +5,5 @@ import {Ingredient} from "../../types"
 
 export interface IngredientDao{
     createIngredient(ingredients : Ingredient) : Promise<void>;
+    getIngredient(ingredientName : string) : Promise<Ingredient | undefined>;
 }

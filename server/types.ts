@@ -25,7 +25,7 @@ export interface Ingredient{
 
 export interface RecipeIngredient{
     recipeId: string;
-    ingrdientId: string
+    ingredientId: string
 }
 
 export interface Like{

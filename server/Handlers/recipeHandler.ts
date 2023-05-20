@@ -14,7 +14,7 @@ export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListA
 }
 
 export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
-    if(!req.body.title || !req.body.instructions || !req.body.cuisine){
+    if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.ingredients || req.body.title.trim() === ""){
         return res.sendStatus(400);
     }else{
         const recipe : Recipe = {
@@ -27,19 +27,27 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
         };
         await db.createRecipe(recipe);
 
-        let ingredients = req.body.ingredients != undefined? req.body.ingredients.filter(val => val!=undefined):[];
-        let ingredientsLen = req.body.ingredients == undefined? 0 : ingredients.length;
-        for(let i = 0; i < ingredientsLen; i++){
-            const ingredient : Ingredient = {
-                id: crypto.randomUUID(),
-                ingredientName: ingredients[i]
-            };
+        for(let ingeredient of req.body.ingredients){
+            if(ingeredient == undefined || ingeredient.trim() === ""){
+                return res.status(400).send({error: "All ingredients are required"});
+            }
+        }
 
-            await db.createIngredient(ingredient);
+        for(let ingeredient of req.body.ingredients){
+            let currentIngredient = await db.getIngredient(ingeredient)
+
+            if(!currentIngredient){
+                currentIngredient = {
+                    id: crypto.randomUUID(),
+                    ingredientName: formatString(ingeredient)
+                };
+    
+                await db.createIngredient(currentIngredient);
+            }
 
             const recipeIngredient : RecipeIngredient = {
                 recipeId: recipe.id,
-                ingrdientId: ingredient.id
+                ingredientId: currentIngredient.id
             }
 
             await db.createRecipeIngredient(recipeIngredient);
@@ -77,4 +85,8 @@ export const deleteRecipeHandler : ExpressHandlerWithParams<DeleteRecipeParam, D
     await db.deleteRecipe(id);
 
     return res.sendStatus(200);
+}
+
+const formatString = (input: string) : string => {
+    return input.trim().replace(/\s+/g, ' ').toLowerCase();
 }
