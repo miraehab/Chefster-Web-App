@@ -14,14 +14,14 @@ export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = asy
         return res.status(403).send({error: "User already exists"});
     }
 
-    const passwordHash = crypto.pbkdf2Sync(req.body.password, process.env.PASSWORD_SALT!, 42, 64, 'sha512').toString('hex');
+    const passwordHash = hashPassword(req.body.password)
 
     const user : User = {
         id: crypto.randomUUID(),
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: req.body.password,
+        password: passwordHash,
         username: req.body.username
     };
 
@@ -37,8 +37,10 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
         return res.sendStatus(400);
     }
 
+    const passwordHash = hashPassword(req.body.password)
+
     const exist = await db.getUserByEmail(req.body.login) || await db.getUserByUsername(req.body.login);
-    if(!exist || exist.password !== req.body.password){
+    if(!exist || exist.password !== passwordHash){
         //unauthorized
         return res.sendStatus(403);
     }
@@ -55,4 +57,8 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
         },
         jwt: jwt
     });
+}
+
+function hashPassword(password : string){
+    return crypto.pbkdf2Sync(password, process.env.PASSWORD_SALT!, 42, 64, 'sha512').toString('hex');
 }
