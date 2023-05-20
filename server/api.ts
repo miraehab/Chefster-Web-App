@@ -1,4 +1,4 @@
-import { Ingredient, Recipe } from "./types";
+import { Ingredient, Recipe, User } from "./types";
 
 // Recipes API
 export interface ListAllRecipesRequest {}
@@ -14,3 +14,12 @@ export interface GetRecipeResponse {
     recipe: Recipe;
 }
 
+//Users API
+export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email'>;
+export interface SignUpResponse {}
+
+export interface SignInRequest {
+    login: string; //username or e-mail
+    password: string;
+}
+export type SinInResponse = Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;

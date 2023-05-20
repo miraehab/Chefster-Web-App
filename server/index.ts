@@ -3,6 +3,7 @@ import {db, initDb} from "./datastore/index"
 import {listAllRecipesHandler, createRecipeHandler} from "./handlers/recipeHandler"
 import {errorHandler} from './handlers/errorHandler'
 import asyncHandler from "express-async-handler"
+import { signUpHandler } from "./handlers/UserHandler";
 
 (async ()=>{
 
@@ -21,6 +22,8 @@ import asyncHandler from "express-async-handler"
     };
 
     app.use(RequestLoggerMiddleware);
+
+    app.post('/v1/signup', asyncHandler(signUpHandler));
 
     app.get('/v1/recipes', asyncHandler(listAllRecipesHandler));
     app.post('/v1/recipes', asyncHandler(createRecipeHandler));
