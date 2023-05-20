@@ -1,5 +1,5 @@
 import { DataStore } from "..";
-import { User, JoinGroup, Recipe, Comment, Like, Group, Ingredient } from "../../types";
+import { User, JoinGroup, Recipe, Comment, Like, Group, Ingredient, RecipeIngredient } from "../../types";
 import { open as sqliteOpen, Database} from "sqlite"
 import  sqlite3 from "sqlite3";
 import path from "path"
@@ -25,6 +25,7 @@ export class sqlDataStore implements DataStore{
         return this;
     }
 
+    // UserDao Methodes
     async createUser(user: User): Promise<void> {
         await this.db.run('INSERT INTO User (id, firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?, ?)', user.id, user.firstName, user.lastName, user.username, user.password, user.email)
     }
@@ -38,6 +39,7 @@ export class sqlDataStore implements DataStore{
         throw new Error("Method not implemented.");
     }
 
+    // RecipeDao Methodes
     listAllRecipes(): Promise<Recipe[]> {
         return this.db.all<Recipe[]>('SELECT * FROM Recipe');
     }
@@ -51,10 +53,17 @@ export class sqlDataStore implements DataStore{
         throw new Error("Method not implemented.");
     }
 
+    // IngredientDao Methodes
     async createIngredient(ingredient : Ingredient) : Promise<void>{
         await this.db.run('INSERT INTO Ingredient (id, ingrdient) VALUES (?, ?)', ingredient.id, ingredient.ingredientName);
     }
 
+    // RecipeIgredientDao Methodes
+    async createRecipeIngredient(recipeIngredient : RecipeIngredient) : Promise<void>{
+        await this.db.run('INSERT INTO RecipeIngredient (recipeId, ingrdientId) VALUES (?, ?)', recipeIngredient.recipeId, recipeIngredient.ingrdientId)
+    }
+
+    // CommentDao Methodes
     createComment(comment: Comment): Promise<void> {
         throw new Error("Method not implemented.");
     }
@@ -65,10 +74,12 @@ export class sqlDataStore implements DataStore{
         throw new Error("Method not implemented.");
     }
 
+    // LikeDao Methodes
     createLike(like: Like): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
+    // GroupDao Methodes
     createGroup(group: Group): Promise<void> {
         throw new Error("Method not implemented.");
     }
@@ -84,6 +95,8 @@ export class sqlDataStore implements DataStore{
     deleteGroup(id: string): Promise<void> {
         throw new Error("Method not implemented.");
     }
+
+    // JoinGroupDao Methodes
     createJoinGroup(groupId: string, userId: string): Promise<JoinGroup> {
         throw new Error("Method not implemented.");
     }

@@ -29,14 +29,19 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
         let ingredients = req.body.ingredients != undefined? req.body.ingredients.filter(val => val!=undefined):[];
         let ingredientsLen = req.body.ingredients == undefined? 0 : ingredients.length;
         for(let i = 0; i < ingredientsLen; i++){
-            const ingredientTmp : Ingredient = {
+            const ingredient : Ingredient = {
                 id: crypto.randomUUID(),
                 ingredientName: ingredients[i]
             };
 
-            await db.createIngredient(ingredientTmp);
+            await db.createIngredient(ingredient);
 
-            //TODO ADD INGREDIENT RECIPE
+            const recipeIngredient : RecipeIngredient = {
+                recipeId: recipe.id,
+                ingrdientId: ingredient.id
+            }
+
+            await db.createRecipeIngredient(recipeIngredient);
         }
 
         return res.sendStatus(200);
