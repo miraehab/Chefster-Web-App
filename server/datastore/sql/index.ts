@@ -33,7 +33,7 @@ export class sqlDataStore implements DataStore{
         return this.db.get<User>('SELECT * FROM User as u WHERE u.email = (?)', email);
     }
     getUserByUsername(username: string): Promise<User | undefined> {
-        return this.db.get<User>('SELECT * FROM User as u WHERE u.username = (?)', username);
+        return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.userName = (?)', username);
     }
     joinGroup(joinedGroup: JoinGroup): Promise<void> {
         throw new Error("Method not implemented.");
