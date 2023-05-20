@@ -19,8 +19,8 @@ export interface Recipe{
 }
 
 export interface Ingredient{
-    id: string,
-    ingrdient: string
+    id: string;
+    ingredientName: string
 }
 
 export interface RecipeIngredient{

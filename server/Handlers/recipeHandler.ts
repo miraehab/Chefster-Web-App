@@ -1,6 +1,6 @@
 import { RequestHandler } from "express"
 import {db} from "../datastore/index"
-import { Recipe } from "../types"
+import { Recipe, Ingredient, RecipeIngredient } from "../types"
 import crypto from 'crypto'
 import { ExpressHandler } from "../types"
 import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse} from '../api'
@@ -25,6 +25,20 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             userId: req.body.userId
         };
         await db.createRecipe(recipe);
+
+        let ingredients = req.body.ingredients != undefined? req.body.ingredients.filter(val => val!=undefined):[];
+        let ingredientsLen = req.body.ingredients == undefined? 0 : ingredients.length;
+        for(let i = 0; i < ingredientsLen; i++){
+            const ingredientTmp : Ingredient = {
+                id: crypto.randomUUID(),
+                ingredientName: ingredients[i]
+            };
+
+            await db.createIngredient(ingredientTmp);
+
+            //TODO ADD INGREDIENT RECIPE
+        }
+
         return res.sendStatus(200);
     }
 }

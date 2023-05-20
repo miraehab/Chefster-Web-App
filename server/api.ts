@@ -1,4 +1,4 @@
-import { Recipe } from "./types";
+import { Ingredient, Recipe } from "./types";
 
 // Recipes API
 export interface ListAllRecipesRequest {}
@@ -6,7 +6,7 @@ export interface ListAllRecipesResponse {
     recipes: Recipe[];
 }
 
-export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine' | 'userId'>;
+export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine' | 'userId'> & {ingredients: string[]};
 export interface CreateRecipeResponse {}
 
 export interface GetRecipeRequest {}
