@@ -4,6 +4,7 @@ import { Recipe, Ingredient, RecipeIngredient } from "../types"
 import crypto from 'crypto'
 import { ExpressHandler } from "../types"
 import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse} from '../api'
+import { verifyJwt } from "../auth"
 
 // It means that the request and response are empty.
 export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListAllRecipesResponse> = async (req, res) => {
@@ -13,7 +14,7 @@ export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListA
 }
 
 export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
-    if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.userId){
+    if(!req.body.title || !req.body.instructions || !req.body.cuisine){
         return res.sendStatus(400);
     }else{
         const recipe : Recipe = {
@@ -22,7 +23,7 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             title: req.body.title,
             instructions: req.body.instructions,
             cuisine: req.body.cuisine,
-            userId: req.body.userId
+            userId: verifyJwt(req.headers.authorization?.split(' ')[1]!).userId
         };
         await db.createRecipe(recipe);
 

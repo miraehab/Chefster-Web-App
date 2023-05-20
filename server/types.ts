@@ -53,10 +53,16 @@ export interface JoinGroup{
     groupId: string;
 }
 
+type withError<T> = T & {error: string};
+
 // to ensure the types of the request and response
 export type ExpressHandler<Req, Res> = RequestHandler<
 string,
-Partial<Res>,
+Partial<withError<Res>>,
 Partial<Req>,
 any
 >
+
+export interface JwtObject{
+    userId: string;
+}

@@ -6,7 +6,7 @@ export interface ListAllRecipesResponse {
     recipes: Recipe[];
 }
 
-export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine' | 'userId'> & {ingredients: string[]};
+export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine'> & {ingredients: string[]};
 export interface CreateRecipeResponse {}
 
 export interface GetRecipeRequest {}
@@ -16,10 +16,15 @@ export interface GetRecipeResponse {
     
 //Users API
 export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email'>;
-export interface SignUpResponse {}
+export interface SignUpResponse {
+    jwt : string;
+}
 
 export interface SignInRequest {
     login: string; //username or e-mail
     password: string;
 }
-export type SignInResponse = Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
+export type SignInResponse = {
+    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
+    jwt: string;
+}

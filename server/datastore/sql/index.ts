@@ -30,10 +30,13 @@ export class sqlDataStore implements DataStore{
         await this.db.run('INSERT INTO User (id, firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?, ?)', user.id, user.firstName, user.lastName, user.username, user.password, user.email)
     }
     getUserByEmail(email: string): Promise<User | undefined> {
-        return this.db.get<User>('SELECT * FROM User as u WHERE u.email = (?)', email);
+        return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.email = (?)', email);
     }
     getUserByUsername(username: string): Promise<User | undefined> {
         return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.userName = (?)', username);
+    }
+    getUserById(id : string) : Promise<User | undefined>{
+        return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.id = (?)', id);
     }
     joinGroup(joinedGroup: JoinGroup): Promise<void> {
         throw new Error("Method not implemented.");

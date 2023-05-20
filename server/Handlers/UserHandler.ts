@@ -1,17 +1,20 @@
 import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from "../api";
+import { signJwt } from "../auth";
 import { db } from '../datastore'
 import { ExpressHandler, User } from "../types";
 import crypto from 'crypto';
 
 export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = async (req, res) => {
     if(!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || !req.body.username){
-        return res.status(400).send("All Fields are required");
+        return res.status(400).send({error: "All Fields are required"});
     }
 
     const alreadyExist = await db.getUserByEmail(req.body.email) || await db.getUserByUsername(req.body.username);
     if(alreadyExist){
-        return res.status(403).send("User already exists")
+        return res.status(403).send({error: "User already exists"});
     }
+
+    const passwordHash = crypto.pbkdf2Sync(req.body.password, process.env.PASSWORD_SALT!, 42, 64, 'sha512').toString('hex');
 
     const user : User = {
         id: crypto.randomUUID(),
@@ -23,7 +26,10 @@ export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = asy
     };
 
     await db.createUser(user);
-    return res.sendStatus(200);
+    const jwt = signJwt({userId: user.id});
+    return res.status(200).send({
+        jwt: jwt
+    });
 }
 
 export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = async (req, res) => {
@@ -37,11 +43,16 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
         return res.sendStatus(403);
     }
 
+    const jwt = signJwt({userId: exist.id});
+
     return res.status(200).send({
-        firstName: exist.firstName,
-        lastName: exist.lastName,
-        username: exist.username,
-        email: exist.email,
-        id: exist.id
-    })
+        user: {
+            firstName: exist.firstName,
+            lastName: exist.lastName,
+            username: exist.username,
+            email: exist.email,
+            id: exist.id
+        },
+        jwt: jwt
+    });
 }
