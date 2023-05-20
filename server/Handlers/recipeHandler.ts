@@ -1,9 +1,9 @@
 import { RequestHandler } from "express"
 import {db} from "../datastore/index"
-import { Recipe, Ingredient, RecipeIngredient } from "../types"
+import { Recipe, Ingredient, RecipeIngredient, ExpressHandlerWithParams } from "../types"
 import crypto from 'crypto'
 import { ExpressHandler } from "../types"
-import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse} from '../api'
+import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse, GetRecipeRequest, GetRecipeResponse, GetRecipeParam} from '../api'
 import { verifyJwt } from "../auth"
 
 // It means that the request and response are empty.
@@ -47,4 +47,18 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
 
         return res.sendStatus(200);
     }
+}
+
+export const getRecipeHandler : ExpressHandlerWithParams<GetRecipeParam, GetRecipeRequest, GetRecipeResponse> = async (req, res) => {
+    const id = req.params.id;
+
+    const recipe = await db.getRecipeById(id!);
+    console.log(id)
+    if(!recipe){
+        res.status(404).send({error: "Recipe Not Found"});
+    }
+
+    return res.status(200).send({
+        recipe: recipe
+    });
 }

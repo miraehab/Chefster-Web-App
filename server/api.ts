@@ -9,10 +9,14 @@ export interface ListAllRecipesResponse {
 export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine'> & {ingredients: string[]};
 export interface CreateRecipeResponse {}
 
+export interface GetRecipeParam {
+    id : string;
+}
 export interface GetRecipeRequest {}
 export interface GetRecipeResponse {
     recipe: Recipe;
 }
+
     
 //Users API
 export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email'>;

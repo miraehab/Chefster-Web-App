@@ -50,7 +50,7 @@ export class sqlDataStore implements DataStore{
         await this.db.run('INSERT INTO Recipe (id, title, instruction, cusine, userId, postedAt) VALUES (?, ?, ?, ?, ?, ?)', recipe.id, recipe.title, recipe.instructions, recipe.cuisine, recipe.userId, recipe.postedAt);
     }
     getRecipeById(id: string): Promise<Recipe | undefined> {
-        throw new Error("Method not implemented.");
+        return this.db.get<Recipe>('SELECT * FROM Recipe as r WHERE r.id = (?)', id);
     }
     deleteRecipe(id: string): Promise<void> {
         throw new Error("Method not implemented.");
