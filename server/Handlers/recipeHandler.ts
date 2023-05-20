@@ -3,7 +3,7 @@ import {db} from "../datastore/index"
 import { Recipe, Ingredient, RecipeIngredient, ExpressHandlerWithParams } from "../types"
 import crypto from 'crypto'
 import { ExpressHandler } from "../types"
-import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse, GetRecipeRequest, GetRecipeResponse, GetRecipeParam} from '../api'
+import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse, GetRecipeRequest, GetRecipeResponse, GetRecipeParam, DeleteRecipeParam, DeleteRecipeRequest, DeleteRecipeResponse} from '../api'
 import { verifyJwt } from "../auth"
 
 // It means that the request and response are empty.
@@ -52,8 +52,12 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
 export const getRecipeHandler : ExpressHandlerWithParams<GetRecipeParam, GetRecipeRequest, GetRecipeResponse> = async (req, res) => {
     const id = req.params.id;
 
-    const recipe = await db.getRecipeById(id!);
-    console.log(id)
+    if(!id){
+        return res.sendStatus(404);
+    }
+
+    const recipe = await db.getRecipeById(id);
+
     if(!recipe){
         res.status(404).send({error: "Recipe Not Found"});
     }
@@ -61,4 +65,16 @@ export const getRecipeHandler : ExpressHandlerWithParams<GetRecipeParam, GetReci
     return res.status(200).send({
         recipe: recipe
     });
+}
+
+export const deleteRecipeHandler : ExpressHandlerWithParams<DeleteRecipeParam, DeleteRecipeRequest, DeleteRecipeResponse> = async (req, res) => {
+    const id = req.params.id;
+
+    if(!id){
+        return res.sendStatus(404);
+    }
+
+    await db.deleteRecipe(id);
+
+    return res.sendStatus(200);
 }

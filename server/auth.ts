@@ -3,9 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export function signJwt(obj : JwtObject) : string{
     const secret = getJwtSecret();
-    return jwt.sign(obj, secret, {
-        expiresIn: '7days'
-    });
+    return jwt.sign(obj, secret);
 }
 
 // throw error if bad token

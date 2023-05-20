@@ -52,8 +52,8 @@ export class sqlDataStore implements DataStore{
     getRecipeById(id: string): Promise<Recipe | undefined> {
         return this.db.get<Recipe>('SELECT * FROM Recipe as r WHERE r.id = (?)', id);
     }
-    deleteRecipe(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async deleteRecipe(id: string): Promise<void> {
+        await this.db.run('DELETE from Recipe as r WHERE r.id = (?)', id);
     }
 
     // IngredientDao Methodes

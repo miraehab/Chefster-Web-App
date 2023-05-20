@@ -17,6 +17,12 @@ export interface GetRecipeResponse {
     recipe: Recipe;
 }
 
+export interface DeleteRecipeParam {
+    id : string;
+}
+export interface DeleteRecipeRequest {}
+export interface DeleteRecipeResponse {}
+
     
 //Users API
 export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email'>;

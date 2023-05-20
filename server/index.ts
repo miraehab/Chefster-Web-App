@@ -1,6 +1,6 @@
 import express, {RequestHandler} from "express";
 import {db, initDb} from "./datastore/index"
-import {listAllRecipesHandler, createRecipeHandler, getRecipeHandler} from "./handlers/recipeHandler"
+import {listAllRecipesHandler, createRecipeHandler, getRecipeHandler, deleteRecipeHandler} from "./handlers/recipeHandler"
 import {errorHandler} from './middleware/errorHandler'
 import asyncHandler from "express-async-handler"
 import { signUpHandler, signInHandler } from "./handlers/UserHandler";
@@ -31,7 +31,8 @@ import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
     // Protected Endpoints
     app.get('/v1/recipes', asyncHandler(listAllRecipesHandler));
     app.post('/v1/recipes', asyncHandler(createRecipeHandler));
-    app.get('/v1/recipes/:id', asyncHandler(getRecipeHandler))
+    app.get('/v1/recipes/:id', asyncHandler(getRecipeHandler));
+    app.delete('/v1/recipes/:id', asyncHandler(deleteRecipeHandler));
 
     app.use(errorHandler);
 

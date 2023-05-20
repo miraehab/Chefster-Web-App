@@ -25,14 +25,14 @@ CREATE TABLE Ingredient(
 CREATE TABLE RecipeIngredient(
  recipeId VARCHAR,
  ingrdientId VARCHAR,
- FOREIGN KEY (recipeId) REFERENCES Recipe(id),
+ FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
  FOREIGN KEY (ingrdientId) REFERENCES Ingredient(id)
 );
 
 CREATE TABLE [Like](
  userId VARCHAR,
  recipeId VARCHAR,
- FOREIGN KEY (recipeId) REFERENCES Recipe(id),
+ FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
  FOREIGN KEY (userId) REFERENCES [User](id)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE Comment(
  recipeId VARCHAR NOT NULL,
  comment VARCHAR NOT NULL,
  postedAt INTEGER NOT NULL,
- FOREIGN KEY (recipeId) REFERENCES Recipe(id),
+ FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,
  FOREIGN KEY (userId) REFERENCES [User](id)
 );
 
