@@ -1,10 +1,11 @@
 import { RequestHandler } from "express"
-import {db} from "../datastore/index"
+import { db } from "../datastore/index"
 import { Recipe, Ingredient, RecipeIngredient, ExpressHandlerWithParams } from "../types"
 import crypto from 'crypto'
 import { ExpressHandler } from "../types"
 import {ListAllRecipesRequest, ListAllRecipesResponse, CreateRecipeRequest, CreateRecipeResponse, GetRecipeRequest, GetRecipeResponse, GetRecipeParam, DeleteRecipeParam, DeleteRecipeRequest, DeleteRecipeResponse} from '../api'
 import { verifyJwt } from "../auth"
+import { getUserId } from '../utils/getUserId'
 
 // It means that the request and response are empty.
 export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListAllRecipesResponse> = async (req, res) => {
@@ -23,7 +24,7 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             title: req.body.title,
             instructions: req.body.instructions,
             cuisine: req.body.cuisine,
-            userId: verifyJwt(req.headers.authorization?.split(' ')[1]!).userId
+            userId: getUserId(req.headers.authorization)
         };
         await db.createRecipe(recipe);
 
@@ -34,12 +35,13 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
         }
 
         for(let ingeredient of req.body.ingredients){
+            ingeredient = ingeredient.trim().toLowerCase()
             let currentIngredient = await db.getIngredient(ingeredient)
 
             if(!currentIngredient){
                 currentIngredient = {
                     id: crypto.randomUUID(),
-                    ingredientName: formatString(ingeredient)
+                    ingredientName: ingeredient
                 };
     
                 await db.createIngredient(currentIngredient);
@@ -85,8 +87,4 @@ export const deleteRecipeHandler : ExpressHandlerWithParams<DeleteRecipeParam, D
     await db.deleteRecipe(id);
 
     return res.sendStatus(200);
-}
-
-const formatString = (input: string) : string => {
-    return input.trim().replace(/\s+/g, ' ').toLowerCase();
 }

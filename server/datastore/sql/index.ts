@@ -70,8 +70,8 @@ export class sqlDataStore implements DataStore{
     }
 
     // CommentDao Methodes
-    createComment(comment: Comment): Promise<void> {
-        throw new Error("Method not implemented.");
+    async createComment(comment: Comment): Promise<void> {
+        await this.db.run('INSERT INTO Comment (id, userId, recipeId, comment, postedAt) Values (?, ?, ?, ?, ?)', comment.id, comment.userId, comment.recipeId, comment.comment, comment.postedAt);
     }
     listAllComments(recipeID: string): Promise<Comment[]> {
         throw new Error("Method not implemented.");

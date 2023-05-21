@@ -1,4 +1,4 @@
-import { Ingredient, Recipe, User } from "./types";
+import { Ingredient, Recipe, User, Comment } from "./types";
 
 // Recipes API
 export interface ListAllRecipesRequest {}
@@ -38,3 +38,10 @@ export type SignInResponse = {
     user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
     jwt: string;
 }
+
+// Comment API
+export interface CreateCommentParam {
+    recipeId : string;
+}
+export type CreateCommentRequest = Pick<Comment, 'comment'>;
+export interface CreateCommentResponse {}
