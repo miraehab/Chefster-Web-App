@@ -52,6 +52,8 @@ export const listAllComments : ExpressHandlerWithParams<ListAllCommentsParam, Li
 export const deleteCommentHandler : ExpressHandlerWithParams<DeleteCommentParam, DeleteCommentRequest, DeleteCommentResponse> = async (req, res) => {
     const recipeId = req.params.recipeId;
     const commentId = req.params.commentId;
+    const userId = getUserId(req.headers.authorization)
+
     //Check Recipe
     if(!recipeId){
         return res.status(400).send({error: "You Should delete comment of a recipe!"});
@@ -65,15 +67,20 @@ export const deleteCommentHandler : ExpressHandlerWithParams<DeleteCommentParam,
     if(!commentId){
         return res.status(404).send({error: "You Should delete a specific comment"});
     }
-    const curComment = db.getCommentById(commentId);
+    const curComment = await db.getCommentById(commentId);
     if(!curComment){
         return res.status(404).send({error: "You Should delete an existed comment."});
     }
 
     // Check if this Comment is in the same Recipe
-    /*if(curComment.recipeId !== recipeId){
+    if(curComment.recipeId !== recipeId){
         return res.status(404).send({error: "This Comment doesn't exist in this recipe."});
-    }*/
+    }
+
+    // Check if the user who wants to delete the comment is the same who posted it.
+    if(curComment.userId !== userId){
+        return res.status(400).send({error: "You Should Delete your own Comment!"});
+    }
 
     await db.deleteComment(commentId);
 
