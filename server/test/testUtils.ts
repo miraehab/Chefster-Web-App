@@ -17,9 +17,9 @@ export async function getTestServer() {
 // /v1/signin
 export const getAuthToken = async (
   path: string,
-  email: string,
+  login: string,
   password: string
 ) => {
-  const result = await client.post(path).send({ email, password }).expect(200);
+  const result = await client.post(path).send({ login, password }).expect(200);
   return { Authorization: "Bearer " + result.body.jwt };
 };
