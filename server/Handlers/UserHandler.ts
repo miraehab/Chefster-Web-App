@@ -3,6 +3,7 @@ import { signJwt } from "../auth";
 import { db } from '../datastore'
 import { ExpressHandler, User } from "../types";
 import crypto from 'crypto';
+import { hashPassword } from "../utils/hashPassword";
 
 export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = async (req, res) => {
     if(!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || !req.body.username){
@@ -57,8 +58,4 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
         },
         jwt: jwt
     });
-}
-
-function hashPassword(password : string){
-    return crypto.pbkdf2Sync(password, process.env.PASSWORD_SALT!, 42, 64, 'sha512').toString('hex');
 }

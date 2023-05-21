@@ -2,7 +2,7 @@ import supertest from "supertest";
 
 import { getTestServer } from "./testUtils";
 
-describe("Server tests", () => {
+describe("Comments tests", () => {
   let client: supertest.SuperTest<supertest.Test>;
 
   beforeAll(async () => {

@@ -29,6 +29,7 @@ export interface RecipeIngredient{
 }
 
 export interface Like{
+    id : string;
     userId: string;
     recipeId: string
 }
@@ -44,7 +45,7 @@ export interface Comment{
 export interface Group{
     id: string;
     groupName: string;
-    groupCreatorID: string;
+    groupCreatorId: string;
     isPrivate: boolean;
 }
 

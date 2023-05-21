@@ -30,6 +30,7 @@ CREATE TABLE RecipeIngredient(
 );
 
 CREATE TABLE [Like](
+ id VARCHAR PRIMARY KEY,
  userId VARCHAR,
  recipeId VARCHAR,
  FOREIGN KEY (recipeId) REFERENCES Recipe(id) ON DELETE CASCADE,

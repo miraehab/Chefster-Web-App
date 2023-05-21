@@ -4,7 +4,7 @@ import { getUserId } from "../utils/getUserId";
 import crypto from 'crypto'
 import { db } from '../datastore'
 
-export const createComment : ExpressHandlerWithParams<CreateCommentParam, CreateCommentRequest, CreateCommentResponse> = async (req, res) => {
+export const createCommentHandler : ExpressHandlerWithParams<CreateCommentParam, CreateCommentRequest, CreateCommentResponse> = async (req, res) => {
     if(!req.body.comment || req.body.comment.trim() === ""){
         return res.status(401).send({error : "You should write a comment."})
     }
@@ -32,7 +32,7 @@ export const createComment : ExpressHandlerWithParams<CreateCommentParam, Create
     return res.sendStatus(200);
 }
 
-export const listAllComments : ExpressHandlerWithParams<ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse> = async (req, res) => {
+export const listAllCommentsHandler : ExpressHandlerWithParams<ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse> = async (req, res) => {
     const recipeId = req.params.recipeId;
     if(!recipeId){
         return res.status(400).send({error: "You Should get comments of a recipe!"});

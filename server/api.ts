@@ -60,3 +60,10 @@ export interface DeleteCommentParam {
 }
 export interface DeleteCommentRequest {}
 export interface DeleteCommentResponse {}
+
+// Like API
+export interface CreateLikeParam {
+    recipeId : string;
+}
+export interface CreateLikeRequest {}
+export interface CreateLikeResponse {}

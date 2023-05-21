@@ -14,7 +14,7 @@ export interface DataStore extends UserDao, RecipeDao, IngredientDao, RecipeIngr
 // Singelton -> one class object.
 export let db : DataStore; 
 
-export async function initDb(){
+export async function initDb(dbPath: string){
     //db = new InMemory();
-    db = await new sqlDataStore().openDb();
+    db = await new sqlDataStore().openDb(dbPath);
 }
