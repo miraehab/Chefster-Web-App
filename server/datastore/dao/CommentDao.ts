@@ -6,5 +6,6 @@ import {Comment} from "../../types"
 export interface CommentDao{
     createComment(comment : Comment) : Promise<void>;
     listAllComments(recipeID : string) : Promise<Comment[]>;
+    getCommentById(commentId : string) : Promise<Comment | undefined>;
     deleteComment(id : string) : Promise<void>;
 }

@@ -53,7 +53,7 @@ export class sqlDataStore implements DataStore{
         return this.db.get<Recipe>('SELECT * FROM Recipe as r WHERE r.id = (?)', id);
     }
     async deleteRecipe(id: string): Promise<void> {
-        await this.db.run('DELETE from Recipe as r WHERE r.id = (?)', id);
+        await this.db.run('DELETE FROM Recipe as r WHERE r.id = (?)', id);
     }
 
     // IngredientDao Methodes
@@ -76,8 +76,11 @@ export class sqlDataStore implements DataStore{
     listAllComments(recipeID: string): Promise<Comment[]> {
         return this.db.all<Comment[]>('SELECT * FROM Comment as c WHERE c.recipeId = (?)', recipeID);
     }
-    deleteComment(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    getCommentById(commentId : string) : Promise<Comment | undefined>{
+        return this.db.get<Comment>('SELECT * FROM Comment as c WHERE c.id = (?)', commentId);
+    }
+    async deleteComment(id: string): Promise<void> {
+        await this.db.run('DELETE FROM Comment as c WHERE c.id = (?)', id);
     }
 
     // LikeDao Methodes

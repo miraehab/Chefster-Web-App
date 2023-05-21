@@ -79,9 +79,20 @@ export const getRecipeHandler : ExpressHandlerWithParams<GetRecipeParam, GetReci
 
 export const deleteRecipeHandler : ExpressHandlerWithParams<DeleteRecipeParam, DeleteRecipeRequest, DeleteRecipeResponse> = async (req, res) => {
     const id = req.params.id;
+    const userId = getUserId(req.headers.authorization)
 
     if(!id){
         return res.sendStatus(404);
+    }
+
+    const recipe = await db.getRecipeById(id);
+    if(!recipe){
+        return res.status(404).send({error: "You should Delete an existed recipe"});
+    }
+
+    // To check that the user who wants to delte the recipe is the same who posted it
+    if(recipe.userId !== userId){
+        return res.status(400).send({error: "You should delete your own recipe!"});
     }
 
     await db.deleteRecipe(id);

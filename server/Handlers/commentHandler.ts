@@ -1,4 +1,4 @@
-import { CreateCommentParam, CreateCommentRequest, CreateCommentResponse, ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse } from "../api";
+import { CreateCommentParam, CreateCommentRequest, CreateCommentResponse, DeleteCommentParam, DeleteCommentRequest, DeleteCommentResponse, ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse } from "../api";
 import { ExpressHandlerWithParams, Comment, ExpressHandler } from "../types";
 import { getUserId } from "../utils/getUserId";
 import crypto from 'crypto'
@@ -35,11 +35,11 @@ export const createComment : ExpressHandlerWithParams<CreateCommentParam, Create
 export const listAllComments : ExpressHandlerWithParams<ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse> = async (req, res) => {
     const recipeId = req.params.recipeId;
     if(!recipeId){
-        return res.status(400).send({error: "You Should comment on a recipe!"});
+        return res.status(400).send({error: "You Should get comments of a recipe!"});
     }
     const recipeExist = await db.getRecipeById(recipeId);
     if(!recipeExist){
-        return res.status(404).send({error: "You Should comment on an existed recipe!"});
+        return res.status(404).send({error: "You Should get comments of an existed recipe!"});
     }
 
     const comments = await db.listAllComments(recipeId);
@@ -47,4 +47,35 @@ export const listAllComments : ExpressHandlerWithParams<ListAllCommentsParam, Li
     return res.status(200).send({
         comments
     });
+}
+
+export const deleteCommentHandler : ExpressHandlerWithParams<DeleteCommentParam, DeleteCommentRequest, DeleteCommentResponse> = async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const commentId = req.params.commentId;
+    //Check Recipe
+    if(!recipeId){
+        return res.status(400).send({error: "You Should delete comment of a recipe!"});
+    }
+    const recipeExist = await db.getRecipeById(recipeId);
+    if(!recipeExist){
+        return res.status(404).send({error: "You Should delete comment of an existed recipe!"});
+    }
+
+    // Check Comment
+    if(!commentId){
+        return res.status(404).send({error: "You Should delete a specific comment"});
+    }
+    const curComment = db.getCommentById(commentId);
+    if(!curComment){
+        return res.status(404).send({error: "You Should delete an existed comment."});
+    }
+
+    // Check if this Comment is in the same Recipe
+    /*if(curComment.recipeId !== recipeId){
+        return res.status(404).send({error: "This Comment doesn't exist in this recipe."});
+    }*/
+
+    await db.deleteComment(commentId);
+
+    return res.sendStatus(200);
 }

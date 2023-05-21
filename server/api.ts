@@ -53,3 +53,10 @@ export interface ListAllCommentsRequest {}
 export interface ListAllCommentsResponse {
     comments : Comment[];
 }
+
+export interface DeleteCommentParam {
+    recipeId : string,
+    commentId: string
+}
+export interface DeleteCommentRequest {}
+export interface DeleteCommentResponse {}
