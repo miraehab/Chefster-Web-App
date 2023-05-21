@@ -45,3 +45,11 @@ export interface CreateCommentParam {
 }
 export type CreateCommentRequest = Pick<Comment, 'comment'>;
 export interface CreateCommentResponse {}
+
+export interface ListAllCommentsParam {
+    recipeId : string;
+}
+export interface ListAllCommentsRequest {}
+export interface ListAllCommentsResponse {
+    comments : Comment[];
+}

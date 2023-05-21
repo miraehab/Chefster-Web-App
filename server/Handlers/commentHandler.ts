@@ -1,5 +1,5 @@
-import { CreateCommentParam, CreateCommentRequest, CreateCommentResponse } from "../api";
-import { ExpressHandlerWithParams, Comment } from "../types";
+import { CreateCommentParam, CreateCommentRequest, CreateCommentResponse, ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse } from "../api";
+import { ExpressHandlerWithParams, Comment, ExpressHandler } from "../types";
 import { getUserId } from "../utils/getUserId";
 import crypto from 'crypto'
 import { db } from '../datastore'
@@ -30,4 +30,21 @@ export const createComment : ExpressHandlerWithParams<CreateCommentParam, Create
     await db.createComment(comment);
 
     return res.sendStatus(200);
+}
+
+export const listAllComments : ExpressHandlerWithParams<ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse> = async (req, res) => {
+    const recipeId = req.params.recipeId;
+    if(!recipeId){
+        return res.status(400).send({error: "You Should comment on a recipe!"});
+    }
+    const recipeExist = await db.getRecipeById(recipeId);
+    if(!recipeExist){
+        return res.status(404).send({error: "You Should comment on an existed recipe!"});
+    }
+
+    const comments = await db.listAllComments(recipeId);
+
+    return res.status(200).send({
+        comments
+    });
 }

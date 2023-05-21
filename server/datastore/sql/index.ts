@@ -74,7 +74,7 @@ export class sqlDataStore implements DataStore{
         await this.db.run('INSERT INTO Comment (id, userId, recipeId, comment, postedAt) Values (?, ?, ?, ?, ?)', comment.id, comment.userId, comment.recipeId, comment.comment, comment.postedAt);
     }
     listAllComments(recipeID: string): Promise<Comment[]> {
-        throw new Error("Method not implemented.");
+        return this.db.all<Comment[]>('SELECT * FROM Comment as c WHERE c.recipeId = (?)', recipeID);
     }
     deleteComment(id: string): Promise<void> {
         throw new Error("Method not implemented.");

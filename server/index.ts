@@ -4,7 +4,7 @@ import {listAllRecipesHandler, createRecipeHandler, getRecipeHandler, deleteReci
 import {errorHandler} from './middleware/errorHandler'
 import asyncHandler from "express-async-handler"
 import { signUpHandler, signInHandler } from "./handlers/UserHandler";
-import { createComment } from "./handlers/commentHandler";
+import { createComment, listAllComments } from "./handlers/commentHandler";
 import dotenv from 'dotenv'
 import { authMiddleware } from "./middleware/authMiddelware";
 import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
@@ -36,6 +36,7 @@ import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
     app.delete('/v1/recipes/:id', asyncHandler(deleteRecipeHandler));
 
     app.post('/v1/recipes/:recipeId/comment', asyncHandler(createComment))
+    app.get('/v1/recipes/:recipeId/comments', asyncHandler(listAllComments))
 
     app.use(errorHandler);
 
