@@ -53,7 +53,7 @@ describe("Recipes tests", () => {
   });
 
   // create a test for creating a recipe with an empty title
-  test("POST /v1/recipes with empty title", async () => {
+  it("POST /v1/recipes with empty title", async () => {
     // create a mock request body with an empty title
     const requestBody = {
      title: "",
@@ -72,7 +72,7 @@ describe("Recipes tests", () => {
     expect(response.body).toHaveProperty("error");
   });
 
-  test("POST /v1/recipes with invalid user id", async () => {
+  it("POST /v1/recipes with invalid user id", async () => {
     // create a mock request body with a valid recipe but an invalid user id
     const requestBody = {
      title: "Test Recipe",
@@ -84,7 +84,7 @@ describe("Recipes tests", () => {
     // make a post request to the endpoint with the request body
     const response = await client.post("/v1/recipes").send(requestBody);
 
-    // expect the response status to be 404 (not found)
+    // expect the response status to be 401 
     expect(response.status).toBe(401);
   });
 });

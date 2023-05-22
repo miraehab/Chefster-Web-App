@@ -28,7 +28,7 @@ export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = asy
 
     await db.createUser(user);
     const jwt = signJwt({userId: user.id});
-    return res.status(200).send({
+    return res.status(201).send({
         jwt: jwt
     });
 }
@@ -43,7 +43,7 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
     const exist = await db.getUserByEmail(req.body.login) || await db.getUserByUsername(req.body.login);
     if(!exist || exist.password !== passwordHash){
         //unauthorized
-        return res.sendStatus(403);
+        return res.status(403).send({error: "Invalid credentials!"});
     }
 
     const jwt = signJwt({userId: exist.id});
