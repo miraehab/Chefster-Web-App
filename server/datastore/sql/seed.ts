@@ -244,7 +244,7 @@ export const SEED_COMMENT_2: Comment = {
     comment:
       "This bread is so easy and delicious. I love the garlic flavor.",
     postedAt: Date.now()
-  };
+};
   
 export const SEED_COMMENT_3: Comment = {
     id: crypto.randomUUID(),

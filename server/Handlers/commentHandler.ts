@@ -6,7 +6,7 @@ import { db } from '../datastore'
 
 export const createCommentHandler : ExpressHandlerWithParams<CreateCommentParam, CreateCommentRequest, CreateCommentResponse> = async (req, res) => {
     if(!req.body.comment || req.body.comment.trim() === ""){
-        return res.status(401).send({error : "You should write a comment."})
+        return res.status(400).send({error : "You should write a comment."})
     }
 
     const recipeId = req.params.recipeId;
@@ -29,7 +29,8 @@ export const createCommentHandler : ExpressHandlerWithParams<CreateCommentParam,
 
     await db.createComment(comment);
 
-    return res.sendStatus(200);
+    // created
+    return res.sendStatus(201);
 }
 
 export const listAllCommentsHandler : ExpressHandlerWithParams<ListAllCommentsParam, ListAllCommentsRequest, ListAllCommentsResponse> = async (req, res) => {
@@ -74,12 +75,12 @@ export const deleteCommentHandler : ExpressHandlerWithParams<DeleteCommentParam,
 
     // Check if this Comment is in the same Recipe
     if(curComment.recipeId !== recipeId){
-        return res.status(404).send({error: "This Comment doesn't exist in this recipe."});
+        return res.status(401).send({error: "This Comment doesn't exist in this recipe."});
     }
 
     // Check if the user who wants to delete the comment is the same who posted it.
     if(curComment.userId !== userId){
-        return res.status(400).send({error: "You Should Delete your own Comment!"});
+        return res.status(403).send({error: "You Should Delete your own Comment!"});
     }
 
     await db.deleteComment(commentId);
