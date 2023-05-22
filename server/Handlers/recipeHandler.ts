@@ -16,7 +16,7 @@ export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListA
 
 export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
     if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.ingredients || req.body.title.trim() === ""){
-        return res.sendStatus(400);
+        return res.status(400).send({error: "All Fileds are required."});
     }else{
         const recipe : Recipe = {
             id: crypto.randomUUID(),
@@ -55,7 +55,8 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
             await db.createRecipeIngredient(recipeIngredient);
         }
 
-        return res.sendStatus(200);
+        // created
+        return res.sendStatus(201);
     }
 }
 
