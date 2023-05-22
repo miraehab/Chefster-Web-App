@@ -15,8 +15,8 @@ import path from "path"
 
     // To ensure that the database initiated correctly
     // Because without databse our app couldn't run
-    //await initDb(path.join(__dirname, "datastore", "sql", "chefsterdb.sqlite"));
     dotenv.config();
+    //await initDb(path.join(__dirname, "datastore", "sql", "chefsterdb.sqlite"));
     await initDb(":memory:");
 
     const app = express();

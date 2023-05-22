@@ -22,8 +22,6 @@ export const createServer = async (dbPath: string, logRequests: boolean) => {
 
   app.use(express.json());
 
-  app.use(RequestLoggerMiddleware);
-
   // Public Endpoints
   app.post('/v1/signup', asyncHandler(signUpHandler));
   app.post('/v1/signin', asyncHandler(signInHandler));

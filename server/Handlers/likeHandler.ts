@@ -13,7 +13,7 @@ export const createLikeHandler : ExpressHandlerWithParams<CreateLikeParam, Creat
 
     const recipe = await db.getRecipeById(recipeId);
     if(!recipe){
-        return res.status(400).send({error: "You Should Like on an existed Recipe."});
+        return res.status(404).send({error: "You Should Like on an existed Recipe."});
     }
 
     // Toggle like

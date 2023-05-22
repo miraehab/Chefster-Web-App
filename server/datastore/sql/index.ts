@@ -91,7 +91,7 @@ export class sqlDataStore implements DataStore{
 
     // LikeDao Methodes
     async createLike(like: Like): Promise<void> {
-        await this.db.run('INSERT INTO Like (userId, recipeId) VALUES (?, ?)', like.userId, like.recipeId);
+        await this.db.run('INSERT INTO Like (id, userId, recipeId) VALUES (?, ?, ?)', like.id, like.userId, like.recipeId);
     }
     async getLike(recipeId : string, userId : string) : Promise<Like | undefined>{
         return this.db.get<Like>('SELECT * FROM Like as l WHERE l.recipeId = (?) AND l.userId = (?)', recipeId, userId);
