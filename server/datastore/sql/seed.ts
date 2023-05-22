@@ -264,19 +264,31 @@ export const SEED_COMMENT_4: Comment = {
     postedAt: Date.now()
 };
 
+
 // create some dummy groups
 export const SEED_GROUP_1: Group = {
     id: crypto.randomUUID(),
     groupName: "Baking Lovers",
     groupCreatorId: SEED_USER.id,
-    isPrivate: false
+    isPrivate: false,
+    groupPass: ""
 };
 
+export const SEED_Group_2_PASSWORD = "SeedGroupPassword2";
 export const SEED_GROUP_2: Group = {
     id: crypto.randomUUID(),
     groupName: "Healthy Recipes",
     groupCreatorId: SEED_USER_2.id,
-    isPrivate: true
+    isPrivate: true,
+    groupPass: ""
+};
+
+export const SEED_GROUP_3: Group = {
+    id: crypto.randomUUID(),
+    groupName: "Mira Recipes",
+    groupCreatorId: SEED_USER_3.id,
+    isPrivate: false, 
+    groupPass: ""
 };
 
 // create some dummy join groups

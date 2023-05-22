@@ -10,6 +10,7 @@ import { authMiddleware } from "./middleware/authMiddelware";
 import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
 import { createLikeHandler } from "./handlers/likeHandler";
 import path from "path"
+import { listAllGroupsHandler } from "./handlers/groupHandler";
 
 (async ()=>{
 
@@ -43,6 +44,8 @@ import path from "path"
     app.delete('/v1/recipes/:recipeId/comments/:commentId', asyncHandler(deleteCommentHandler))
 
     app.post('/v1/recipes/:recipeId/Likes', asyncHandler(createLikeHandler))
+
+    app.get('/v1/groups', asyncHandler(listAllGroupsHandler));
 
     app.use(errorHandler);
 

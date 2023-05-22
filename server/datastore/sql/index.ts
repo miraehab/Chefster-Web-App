@@ -3,7 +3,7 @@ import { User, JoinGroup, Recipe, Comment, Like, Group, Ingredient, RecipeIngred
 import { open as sqliteOpen, Database} from "sqlite"
 import  sqlite3 from "sqlite3";
 import path from "path"
-import { SEED_COMMENT_1, SEED_COMMENT_2, SEED_COMMENT_3, SEED_COMMENT_4, SEED_GROUP_1, SEED_GROUP_2, SEED_INGREDIENT_1, SEED_INGREDIENT_10, SEED_INGREDIENT_2, SEED_INGREDIENT_3, SEED_INGREDIENT_4, SEED_INGREDIENT_5, SEED_INGREDIENT_6, SEED_INGREDIENT_7, SEED_INGREDIENT_8, SEED_INGREDIENT_9, SEED_JOIN_GROUP_1, SEED_JOIN_GROUP_2, SEED_JOIN_GROUP_3, SEED_JOIN_GROUP_4, SEED_JOIN_GROUP_5, SEED_LIKE_1, SEED_LIKE_2, SEED_LIKE_3, SEED_LIKE_4, SEED_RECIPE_1, SEED_RECIPE_2, SEED_RECIPE_3, SEED_RECIPE_INGREDIENT_1, SEED_RECIPE_INGREDIENT_10, SEED_RECIPE_INGREDIENT_11, SEED_RECIPE_INGREDIENT_12, SEED_RECIPE_INGREDIENT_13, SEED_RECIPE_INGREDIENT_14, SEED_RECIPE_INGREDIENT_2, SEED_RECIPE_INGREDIENT_3, SEED_RECIPE_INGREDIENT_4, SEED_RECIPE_INGREDIENT_5, SEED_RECIPE_INGREDIENT_6, SEED_RECIPE_INGREDIENT_7, SEED_RECIPE_INGREDIENT_8, SEED_RECIPE_INGREDIENT_9, SEED_USER, SEED_USER_2, SEED_USER_3, SEED_USER_PASSWORD, SEED_USER_PASSWORD2, SEED_USER_PASSWORD3 } from "./seed";
+import { SEED_COMMENT_1, SEED_COMMENT_2, SEED_COMMENT_3, SEED_COMMENT_4, SEED_GROUP_1, SEED_GROUP_2, SEED_GROUP_3, SEED_Group_2_PASSWORD, SEED_INGREDIENT_1, SEED_INGREDIENT_10, SEED_INGREDIENT_2, SEED_INGREDIENT_3, SEED_INGREDIENT_4, SEED_INGREDIENT_5, SEED_INGREDIENT_6, SEED_INGREDIENT_7, SEED_INGREDIENT_8, SEED_INGREDIENT_9, SEED_JOIN_GROUP_1, SEED_JOIN_GROUP_2, SEED_JOIN_GROUP_3, SEED_JOIN_GROUP_4, SEED_JOIN_GROUP_5, SEED_LIKE_1, SEED_LIKE_2, SEED_LIKE_3, SEED_LIKE_4, SEED_RECIPE_1, SEED_RECIPE_2, SEED_RECIPE_3, SEED_RECIPE_INGREDIENT_1, SEED_RECIPE_INGREDIENT_10, SEED_RECIPE_INGREDIENT_11, SEED_RECIPE_INGREDIENT_12, SEED_RECIPE_INGREDIENT_13, SEED_RECIPE_INGREDIENT_14, SEED_RECIPE_INGREDIENT_2, SEED_RECIPE_INGREDIENT_3, SEED_RECIPE_INGREDIENT_4, SEED_RECIPE_INGREDIENT_5, SEED_RECIPE_INGREDIENT_6, SEED_RECIPE_INGREDIENT_7, SEED_RECIPE_INGREDIENT_8, SEED_RECIPE_INGREDIENT_9, SEED_USER, SEED_USER_2, SEED_USER_3, SEED_USER_PASSWORD, SEED_USER_PASSWORD2, SEED_USER_PASSWORD3 } from "./seed";
 import { hashPassword } from "../../utils/hashPassword";
 
 export class sqlDataStore implements DataStore{
@@ -102,16 +102,19 @@ export class sqlDataStore implements DataStore{
 
     // GroupDao Methodes
     async createGroup(group: Group): Promise<void> {
-        await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate) VALUES (?, ?, ? ,?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate);
+        await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate, groupPass) VALUES (?, ?, ? ,?, ?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate, group.groupPass);
     }
     async getGroupById(id: string): Promise<Group | undefined> {
         return this.db.get<Group>('SELECT * FROM [Group] as g WHERE g.id = (?)', id);
     }
     async listAllGroups(): Promise<Group[] | undefined> {
-        return await this.db.get<Group[]>('SELECT * FROM [Group]');
+        return await this.db.all<Group[]>('SELECT * FROM [Group] as g WHERE g.isPrivate = 0');
     }
     async listMyGroups(userId: string): Promise<Group[] | undefined> {
         return await this.db.get<Group[]>('SELECT * FROM [Group] as g WHERE g.id = (SELECT groupId FROM JoinGroup as jg WHERE jg.userId = (?))', userId);
+    }
+    async listMyCreatedGroups(userId: string) : Promise<Group[] | undefined>{
+        return await this.db.get<Group[]>('SELECT * FROM [Group] as g WHERE g.groupCreatorId = (?)', userId);
     }
     async deleteGroup(id: string): Promise<void> {
         await this.db.run('DELETE FROM [Group] as g WHERE g.id = (?)', id);
@@ -177,7 +180,9 @@ export class sqlDataStore implements DataStore{
     
         // create the groups
         await this.createGroup(SEED_GROUP_1);
+        SEED_GROUP_2.groupPass = hashPassword(SEED_Group_2_PASSWORD);
         await this.createGroup(SEED_GROUP_2);
+        await this.createGroup(SEED_GROUP_3);
         
         // create the join groups
         await this.createJoinGroup(SEED_JOIN_GROUP_1.groupId, SEED_JOIN_GROUP_1.userId);

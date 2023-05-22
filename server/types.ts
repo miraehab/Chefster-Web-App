@@ -47,6 +47,7 @@ export interface Group{
     groupName: string;
     groupCreatorId: string;
     isPrivate: boolean;
+    groupPass: string;
 }
 
 export interface JoinGroup{

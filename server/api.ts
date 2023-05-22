@@ -1,4 +1,4 @@
-import { Ingredient, Recipe, User, Comment } from "./types";
+import { Ingredient, Recipe, User, Comment, Group } from "./types";
 
 // Recipes API
 export interface ListAllRecipesRequest {}
@@ -67,3 +67,9 @@ export interface CreateLikeParam {
 }
 export interface CreateLikeRequest {}
 export interface CreateLikeResponse {}
+
+// Group API
+export interface ListAllGroupsRequest {}
+export interface ListAllGroupsResponse {
+    groups : Group[];
+}
