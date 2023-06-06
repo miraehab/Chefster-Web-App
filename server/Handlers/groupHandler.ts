@@ -10,7 +10,7 @@ export const createGroupHandler : ExpressHandler<CreateGroupRequest, CreateGroup
         return res.status(400).send({error: "GroupName and isPrivate are required"});
     }
 
-    if(req.body.isPrivate && !req.body.groupPass){
+    if(req.body.isPrivate && !req.body.groupPass && req.body.groupPass?.trim() != ""){
         return res.status(400).send({error: "Your Group is Private It Should have a Password"});
     }
 
@@ -114,5 +114,34 @@ export const getGroupHandler : ExpressHandlerWithParams<GetGroupParam, GetGroupR
 }
 
 export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGroupRequest, joinGroupResponse> = async (req, res) => {
-    
+    const groupPass = req.body.groupPass;
+    const groudId = req.params.id;
+    const userId = getUserId(req.headers.authorization);
+
+    // If Private
+    if(groupPass && groupPass != ""){
+        const group = await db.getGroupByPass(groupPass);
+
+        if(!group){
+            return res.status(404).send({error: "Group Not Found."});
+        }
+
+        await db.createJoinGroup(group.id, userId);
+
+        return res.sendStatus(200);
+    }else{
+        if(!groudId){
+            return res.status(400).send({error: "Invalid Group Id"});
+        }
+
+        const group = await db.getGroupById(groudId);
+        console.log(groudId)
+        if(!group){
+            return res.status(404).send({error: "Group Not Found."});
+        }
+
+        await db.createJoinGroup(group.id, userId);
+
+        return res.sendStatus(200);
+    }
 }

@@ -44,9 +44,6 @@ export class sqlDataStore implements DataStore{
     getUserById(id : string) : Promise<User | undefined>{
         return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.id = (?)', id);
     }
-    async joinGroup(group : Group, userId : string): Promise<void> {
-        await this.createJoinGroup(group.id, userId);
-    }
 
     // RecipeDao Methodes
     listAllRecipes(): Promise<Recipe[]> {

@@ -289,7 +289,7 @@ export const SEED_GROUP_3: Group = {
     id: crypto.randomUUID(),
     groupName: "Mira Recipes",
     groupCreatorId: SEED_USER_3.id,
-    isPrivate: true, 
+    isPrivate: false, 
     groupPass: "",
     createTime: Date.now()
 };

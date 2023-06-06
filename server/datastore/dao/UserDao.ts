@@ -8,5 +8,4 @@ export interface UserDao{
     getUserByEmail(email : string) : Promise<User | undefined>;
     getUserByUsername(username : string) : Promise<User | undefined>;
     getUserById(id : string) : Promise<User | undefined>;
-    joinGroup(group : Group, userId : string): Promise<void>;
 }
