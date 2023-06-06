@@ -88,7 +88,23 @@ export interface ListUserCreatedGroupsResponse {
 }
 
 export interface DeleteGroupParam{
-    groupId: string;
+    id : string;
 }
 export interface DeleteGroupRequest {}
 export interface DeleteGroupResponse {}
+
+export interface GetGroupParam {
+    id : string,
+}
+export interface GetGroupRequest {}
+export interface GetGroupResponse {
+    group : Group
+}
+
+export interface joinGroupParam {
+    id : string,
+}
+export interface joinGroupRequest {
+    groupPass : string;
+}
+export interface joinGroupResponse {}

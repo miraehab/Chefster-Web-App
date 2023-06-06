@@ -129,6 +129,10 @@ export class sqlDataStore implements DataStore{
     async createJoinGroup(groupId: string, userId: string): Promise<void> {
         await this.db.run('INSERT INTO JoinGroup (userId, groupId) VALUES (?, ?)', userId, groupId);
     }
+    checkIfMember(userId: string, groupId: string) : Promise<JoinGroup | undefined> {
+        return this.db.get<JoinGroup>('SELECT * FROM JoinGroup as jg WHERE jg.userId = (?) AND jg.groupId = (?)', userId, groupId);
+    }
+
     private seedDb = async () => {
         // create the users
         SEED_USER.password = hashPassword(SEED_USER_PASSWORD);

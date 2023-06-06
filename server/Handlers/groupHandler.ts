@@ -1,8 +1,9 @@
-import { CreateGroupRequest, CreateGroupResponse, DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse } from "../api";
+import { CreateGroupRequest, CreateGroupResponse, DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, GetGroupParam, GetGroupRequest, GetGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse, joinGroupParam, joinGroupRequest, joinGroupResponse } from "../api";
 import { ExpressHandler, ExpressHandlerWithParams, Group } from "../types";
 import { db } from '../datastore'
 import { getUserId } from "../utils/getUserId";
 import crypto from 'crypto'
+import { SEED_GROUP_2, SEED_GROUP_3 } from "../datastore/sql/seed";
 
 export const createGroupHandler : ExpressHandler<CreateGroupRequest, CreateGroupResponse> = async (req, res) => {
     if(!req.body.groupName || req.body.isPrivate === undefined){
@@ -69,7 +70,7 @@ export const listuserCreatedGroupsHandler : ExpressHandler<ListUserCreatedGroups
 }
 
 export const deleteGroupHandler : ExpressHandlerWithParams<DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse> = async (req, res) =>{
-    const groupId = req.params.groupId;
+    const groupId = req.params.id;
     const userId = getUserId(req.headers.authorization);
 
     if(!groupId){
@@ -89,4 +90,29 @@ export const deleteGroupHandler : ExpressHandlerWithParams<DeleteGroupParam, Del
     await db.deleteGroup(groupId);
 
     return res.sendStatus(200);
+}
+
+export const getGroupHandler : ExpressHandlerWithParams<GetGroupParam, GetGroupRequest, GetGroupResponse> = async (req, res) => {
+    const groudId = req.params.id;
+    const userId = getUserId(req.headers.authorization);
+    if(!groudId){
+        return res.status(400).send({error: "Invalid Group Id"});
+    }
+
+    const group = await db.getGroupById(groudId);
+    if(!group){
+        return res.status(404).send({error: "Group Not Found"});
+    }
+
+    // Check if the group is private and the user is not a member
+    const isMember = await db.checkIfMember(userId, groudId);
+    if(group.isPrivate && !isMember){
+        return res.status(401).send({error: "It's a Private group and you are not a member."});
+    }
+
+    return res.status(200).send({group});
+}
+
+export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGroupRequest, joinGroupResponse> = async (req, res) => {
+    
 }
