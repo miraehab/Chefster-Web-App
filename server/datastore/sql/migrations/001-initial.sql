@@ -50,7 +50,7 @@ CREATE TABLE Comment(
 CREATE TABLE [Group](
  id VARCHAR PRIMARY KEY,
  groupName VARCHAR NOT NULL,
- groupCreatorID VARCHAR NOT NULL,
+ groupCreatorId VARCHAR NOT NULL,
  isPrivate BOOLEAN NOT NULL,
  groupPass VARCHAR,
  FOREIGN KEY (groupCreatorID) REFERENCES [User](id)

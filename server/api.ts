@@ -78,3 +78,14 @@ export interface ListUserJoinedGroupsRequest {}
 export interface ListUserJoinedGroupsResponse {
     userGroups : Group[];
 }
+
+export interface ListUserCreatedGroupsRequest {}
+export interface ListUserCreatedGroupsResponse {
+    createdGroups : Group[];
+}
+
+export interface DeleteGroupParam{
+    groupId: string;
+}
+export interface DeleteGroupRequest {}
+export interface DeleteGroupResponse {}

@@ -103,6 +103,8 @@ export class sqlDataStore implements DataStore{
     // GroupDao Methodes
     async createGroup(group: Group): Promise<void> {
         await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate, groupPass) VALUES (?, ?, ? ,?, ?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate, group.groupPass);
+        // To add the creator as the first member in the group
+        await this.createJoinGroup(group.id, group.groupCreatorId);
     }
     async getGroupById(id: string): Promise<Group | undefined> {
         return this.db.get<Group>('SELECT * FROM [Group] as g WHERE g.id = (?)', id);
