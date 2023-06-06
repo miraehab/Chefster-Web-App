@@ -36,9 +36,9 @@ describe("Groups tests", () => {
   });
 
   // create a test for listing all groups that a user has joined
-  it("GET /v1/userJoinedGroups", async () => {
+  it("GET /v1/users/membership", async () => {
     // make a get request to the endpoint with a valid user id as query parameter
-    const response = await client.get("/v1/userJoinedGroups").set(userAuthHeader);
+    const response = await client.get("/v1/users/membership").set(userAuthHeader);
 
     // expect the response status to be 200 (ok)
     expect(response.status).toBe(200);
@@ -51,9 +51,9 @@ describe("Groups tests", () => {
   });
   
   // create a test for listing all groups that a user has joined with an invalid user id
-  test("GET /v1/userJoinedGroups with invalid user id", async () => {
+  test("GET /v1/users/membership with invalid user id", async () => {
     // make a get request to the endpoint with an invalid user id as query parameter
-    const response = await client.get("/v1/userJoinedGroups");
+    const response = await client.get("/v1/users/membership");
 
     // expect the response status to be 404 (not found)
     expect(response.status).toBe(401);

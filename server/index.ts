@@ -6,16 +6,16 @@ import asyncHandler from "express-async-handler"
 import { signUpHandler, signInHandler } from "./handlers/userHandler";
 import { createCommentHandler, listAllCommentsHandler, deleteCommentHandler } from "./handlers/commentHandler";
 import dotenv from 'dotenv'
-import { authMiddleware } from "./middleware/authMiddelware";
-import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
+import { authMiddleware } from "./middleware/authMiddleware";
+import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddleware'
 import { createLikeHandler } from "./handlers/likeHandler";
 import path from "path"
-import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listuserCreatedGroupsHandler, listuserJoinedGroupsHandler } from "./handlers/groupHandler";
+import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
 
 (async ()=>{
 
     // To ensure that the database initiated correctly
-    // Because without databse our app couldn't run
+    // Because without database our app couldn't run
     dotenv.config();
     //await initDb(path.join(__dirname, "datastore", "sql", "chefsterdb.sqlite"));
     await initDb(":memory:");
@@ -30,7 +30,7 @@ import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandl
     app.post('/v1/signup', asyncHandler(signUpHandler));
     app.post('/v1/signin', asyncHandler(signInHandler));
 
-    // Any action after sign up needs athentication
+    // Any action after sign up needs authentication
     app.use(authMiddleware);
 
     // Protected Endpoints
@@ -47,8 +47,8 @@ import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandl
 
     app.get('/v1/groups', asyncHandler(listAllGroupsHandler));
     app.post('/v1/groups', asyncHandler(createGroupHandler));
-    app.get('/v1/userJoinedGroups', asyncHandler(listuserJoinedGroupsHandler));
-    app.get('/v1/userCreatedGroups', asyncHandler(listuserCreatedGroupsHandler));
+    app.get('/v1/users/groups', asyncHandler(listUserCreatedGroupsHandler));
+    app.get('/v1/users/membership', asyncHandler(listUserJoinedGroupsHandler));
     app.delete('/v1/groups/:id', asyncHandler(deleteGroupHandler))
     app.get('/v1/groups/:id', asyncHandler(getGroupHandler))
     app.post('/v1/groups/:id', asyncHandler(joinGroupHandler))

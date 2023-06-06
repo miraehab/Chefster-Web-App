@@ -38,7 +38,7 @@ export const listAllGroupsHandler : ExpressHandler<ListAllGroupsRequest, ListAll
     return res.status(200).send({groups});
 }
 
-export const listuserJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse> = async (req, res) => {
+export const listUserJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse> = async (req, res) => {
     const userId = getUserId(req.headers.authorization);
 
     if(!userId){
@@ -53,7 +53,7 @@ export const listuserJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsRe
     return res.status(200).send({userGroups})
 }
 
-export const listuserCreatedGroupsHandler : ExpressHandler<ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse> = async (req, res) => {
+export const listUserCreatedGroupsHandler : ExpressHandler<ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse> = async (req, res) => {
     const userId = getUserId(req.headers.authorization);
 
     if(!userId){
@@ -82,7 +82,7 @@ export const deleteGroupHandler : ExpressHandlerWithParams<DeleteGroupParam, Del
         return res.status(404).send({error: "Group Not Found!"});
     }
 
-    // To check that the user who wants to delte the recipe is the same who posted it
+    // To check that the user who wants to delete the recipe is the same who posted it
     if(group.groupCreatorId !== userId){
         return res.status(400).send({error: "You should delete your own Group!"});
     }
@@ -93,19 +93,19 @@ export const deleteGroupHandler : ExpressHandlerWithParams<DeleteGroupParam, Del
 }
 
 export const getGroupHandler : ExpressHandlerWithParams<GetGroupParam, GetGroupRequest, GetGroupResponse> = async (req, res) => {
-    const groudId = req.params.id;
+    const groupId = req.params.id;
     const userId = getUserId(req.headers.authorization);
-    if(!groudId){
+    if(!groupId){
         return res.status(400).send({error: "Invalid Group Id"});
     }
 
-    const group = await db.getGroupById(groudId);
+    const group = await db.getGroupById(groupId);
     if(!group){
         return res.status(404).send({error: "Group Not Found"});
     }
 
     // Check if the group is private and the user is not a member
-    const isMember = await db.checkIfMember(userId, groudId);
+    const isMember = await db.checkIfMember(userId, groupId);
     if(group.isPrivate && !isMember){
         return res.status(401).send({error: "It's a Private group and you are not a member."});
     }
@@ -115,7 +115,7 @@ export const getGroupHandler : ExpressHandlerWithParams<GetGroupParam, GetGroupR
 
 export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGroupRequest, joinGroupResponse> = async (req, res) => {
     const groupPass = req.body.groupPass;
-    const groudId = req.params.id;
+    const groupId = req.params.id;
     const userId = getUserId(req.headers.authorization);
 
     // If Private
@@ -130,12 +130,12 @@ export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGro
 
         return res.sendStatus(200);
     }else{
-        if(!groudId){
+        if(!groupId){
             return res.status(400).send({error: "Invalid Group Id"});
         }
 
-        const group = await db.getGroupById(groudId);
-        console.log(groudId)
+        const group = await db.getGroupById(groupId);
+        console.log(groupId)
         if(!group){
             return res.status(404).send({error: "Group Not Found."});
         }
