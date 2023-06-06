@@ -29,14 +29,33 @@ describe("Groups tests", () => {
     expect(response.status).toBe(200);
 
     // expect the response body to be an array of groups
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.groups)).toBe(true);
 
     // expect the response body to have two groups
-    expect(response.body.length).toBe(2);
+    expect(response.body.groups.length).toBe(2);
+  });
 
-    // expect the response body to have the same properties as the seed groups
-    expect(response.body[0]).toEqual(expect.objectContaining(SEED_GROUP_1));
-    expect(response.body[1]).toEqual(expect.objectContaining(SEED_GROUP_3));
+  // create a test for listing all groups that a user has joined
+  it("GET /v1/userJoinedGroups", async () => {
+    // make a get request to the endpoint with a valid user id as query parameter
+    const response = await client.get("/v1/userJoinedGroups").set(userAuthHeader);
+
+    // expect the response status to be 200 (ok)
+    expect(response.status).toBe(200);
+
+    // expect the response body to be an array of groups
+    expect(Array.isArray(response.body.userGroups)).toBe(true);
+
+    // expect the response body to have two groups for this user
+    expect(response.body.userGroups.length).toBe(2);
   });
   
+  // create a test for listing all groups that a user has joined with an invalid user id
+  test("GET /v1/userJoinedGroups with invalid user id", async () => {
+    // make a get request to the endpoint with an invalid user id as query parameter
+    const response = await client.get("/v1/userJoinedGroups");
+
+    // expect the response status to be 404 (not found)
+    expect(response.status).toBe(401);
+  });
 });

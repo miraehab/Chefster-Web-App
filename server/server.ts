@@ -10,6 +10,7 @@ import { authMiddleware } from "./middleware/authMiddelware";
 import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddelware'
 import { createLikeHandler } from "./handlers/likeHandler";
 import http from "http";
+import { listAllGroupsHandler, listuserJoinedGroupsHandler } from "./handlers/groupHandler";
 
 export const createServer = async (dbPath: string, logRequests: boolean) => {
   // To ensure that the database initiated correctly
@@ -40,6 +41,9 @@ export const createServer = async (dbPath: string, logRequests: boolean) => {
   app.delete('/v1/recipes/:recipeId/comments/:commentId', asyncHandler(deleteCommentHandler))
 
   app.post('/v1/recipes/:recipeId/Likes', asyncHandler(createLikeHandler))
+
+  app.get('/v1/groups', asyncHandler(listAllGroupsHandler));
+  app.get('/v1/userJoinedGroups', asyncHandler(listuserJoinedGroupsHandler));
 
   app.use(errorHandler);
 

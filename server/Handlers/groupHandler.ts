@@ -7,13 +7,13 @@ export const listAllGroupsHandler : ExpressHandler<ListAllGroupsRequest, ListAll
     const groups = await db.listAllGroups();
 
     if(!groups){
-        return res.status(400).send({error: "No Groups Found"});
+        return res.status(404).send({error: "No Groups Found"});
     }
 
     return res.status(200).send({groups});
 }
 
-export const listusrJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse> = async (req, res) => {
+export const listuserJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse> = async (req, res) => {
     const userId = getUserId(req.headers.authorization);
 
     if(!userId){
@@ -24,8 +24,6 @@ export const listusrJoinedGroupsHandler : ExpressHandler<ListUserJoinedGroupsReq
     if(!userGroups){
         res.status(404).send({error: "Groups Not found"})
     }
-
-    console.log(userGroups)
 
     return res.status(200).send({userGroups})
 }
