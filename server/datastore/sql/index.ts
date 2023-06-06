@@ -110,11 +110,11 @@ export class sqlDataStore implements DataStore{
     async listAllGroups(): Promise<Group[] | undefined> {
         return await this.db.all<Group[]>('SELECT * FROM [Group] as g WHERE g.isPrivate = 0');
     }
-    async listMyGroups(userId: string): Promise<Group[] | undefined> {
-        return await this.db.get<Group[]>('SELECT * FROM [Group] as g WHERE g.id = (SELECT groupId FROM JoinGroup as jg WHERE jg.userId = (?))', userId);
+    async listUserJoinedGroups(userId: string): Promise<Group[] | undefined> {
+        return await this.db.all<Group[]>('SELECT * FROM [Group] as g WHERE g.id in (SELECT groupId FROM JoinGroup as jg WHERE jg.userId = (?))', userId);
     }
-    async listMyCreatedGroups(userId: string) : Promise<Group[] | undefined>{
-        return await this.db.get<Group[]>('SELECT * FROM [Group] as g WHERE g.groupCreatorId = (?)', userId);
+    async listUserCreatedGroups(userId: string) : Promise<Group[] | undefined>{
+        return await this.db.all<Group[]>('SELECT * FROM [Group] as g WHERE g.groupCreatorId = (?)', userId);
     }
     async deleteGroup(id: string): Promise<void> {
         await this.db.run('DELETE FROM [Group] as g WHERE g.id = (?)', id);
@@ -122,7 +122,7 @@ export class sqlDataStore implements DataStore{
 
     // JoinGroupDao Methodes
     async createJoinGroup(groupId: string, userId: string): Promise<void> {
-        await this.db.run('INSERT INTO JoinGroup (userId, groupId) VALUES (?, ?)')
+        await this.db.run('INSERT INTO JoinGroup (userId, groupId) VALUES (?, ?)', userId, groupId);
     }
     private seedDb = async () => {
         // create the users

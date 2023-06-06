@@ -73,3 +73,8 @@ export interface ListAllGroupsRequest {}
 export interface ListAllGroupsResponse {
     groups : Group[];
 }
+
+export interface ListUserJoinedGroupsRequest {}
+export interface ListUserJoinedGroupsResponse {
+    userGroups : Group[];
+}
