@@ -1,7 +1,31 @@
-import { DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse } from "../api";
-import { ExpressHandler, ExpressHandlerWithParams } from "../types";
+import { CreateGroupRequest, CreateGroupResponse, DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse } from "../api";
+import { ExpressHandler, ExpressHandlerWithParams, Group } from "../types";
 import { db } from '../datastore'
 import { getUserId } from "../utils/getUserId";
+import crypto from 'crypto'
+
+export const createGroupHandler : ExpressHandler<CreateGroupRequest, CreateGroupResponse> = async (req, res) => {
+    if(!req.body.groupName || req.body.isPrivate === undefined){
+        return res.status(400).send({error: "GroupName and isPrivate are required"});
+    }
+
+    if(req.body.isPrivate && !req.body.groupPass){
+        return res.status(400).send({error: "Your Group is Private It Should have a Password"});
+    }
+
+    const group : Group = {
+        id: crypto.randomUUID(),
+        groupName: req.body.groupName,
+        groupCreatorId: getUserId(req.headers.authorization),
+        isPrivate: req.body.isPrivate,
+        groupPass: req.body.groupPass? req.body.groupPass : "",
+        createTime: Date.now()
+    }
+
+    await db.createGroup(group);
+
+    return res.sendStatus(201);
+}
 
 export const listAllGroupsHandler : ExpressHandler<ListAllGroupsRequest, ListAllGroupsResponse> = async (req, res) => {
     const groups = await db.listAllGroups();

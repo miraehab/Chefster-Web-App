@@ -53,6 +53,7 @@ CREATE TABLE [Group](
  groupCreatorId VARCHAR NOT NULL,
  isPrivate BOOLEAN NOT NULL,
  groupPass VARCHAR,
+ createTime INTEGER NOT NULL,
  FOREIGN KEY (groupCreatorID) REFERENCES [User](id)
 );
 

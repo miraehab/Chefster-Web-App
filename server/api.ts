@@ -69,6 +69,9 @@ export interface CreateLikeRequest {}
 export interface CreateLikeResponse {}
 
 // Group API
+export type CreateGroupRequest = Pick<Group, 'groupName' | 'isPrivate' | 'groupPass'>;
+export interface CreateGroupResponse {}
+
 export interface ListAllGroupsRequest {}
 export interface ListAllGroupsResponse {
     groups : Group[];

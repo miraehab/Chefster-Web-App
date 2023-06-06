@@ -271,7 +271,8 @@ export const SEED_GROUP_1: Group = {
     groupName: "Baking Lovers",
     groupCreatorId: SEED_USER.id,
     isPrivate: false,
-    groupPass: ""
+    groupPass: "",
+    createTime: Date.now()
 };
 
 export const SEED_Group_2_PASSWORD = "SeedGroupPassword2";
@@ -280,7 +281,8 @@ export const SEED_GROUP_2: Group = {
     groupName: "Healthy Recipes",
     groupCreatorId: SEED_USER_2.id,
     isPrivate: true,
-    groupPass: ""
+    groupPass: "",
+    createTime: Date.now()
 };
 
 export const SEED_GROUP_3: Group = {
@@ -288,7 +290,8 @@ export const SEED_GROUP_3: Group = {
     groupName: "Mira Recipes",
     groupCreatorId: SEED_USER_3.id,
     isPrivate: false, 
-    groupPass: ""
+    groupPass: "",
+    createTime: Date.now()
 };
 
 // create some dummy join groups
