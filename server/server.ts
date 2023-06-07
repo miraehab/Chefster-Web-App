@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 import { authMiddleware } from "./middleware/authMiddleware";
 import { createLikeHandler } from "./handlers/likeHandler";
 import http from "http";
-import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
+import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listGroupMembers, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
 
 export const createServer = async (dbPath: string, logRequests: boolean) => {
   // To ensure that the database initiated correctly
@@ -48,6 +48,7 @@ export const createServer = async (dbPath: string, logRequests: boolean) => {
   app.delete('/v1/groups/:id', asyncHandler(deleteGroupHandler))
   app.get('/v1/groups/:id', asyncHandler(getGroupHandler))
   app.post('/v1/groups/:id', asyncHandler(joinGroupHandler))
+  app.get('/v1/groups/:id/members', asyncHandler(listGroupMembers))
 
   app.use(errorHandler);
 

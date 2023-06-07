@@ -11,12 +11,12 @@ import { getUserId } from '../utils/getUserId'
 export const listAllRecipesHandler : ExpressHandler<ListAllRecipesRequest, ListAllRecipesResponse> = async (req, res) => {
     // we don't return the list directly as we want the API design to be flexible in case we wanted to add other infos
     // example: res.send({recipes: db.listAllRecipes(), number_lists: ... })
-    return res.send({recipes: await db.listAllRecipes()});
+    return res.status(200).send({recipes: await db.listAllRecipes()});
 }
 
 export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRecipeResponse> = async (req, res) => {
     if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.ingredients || req.body.title.trim() === ""){
-        return res.status(400).send({error: "All Fileds are required."});
+        return res.status(400).send({error: "All Fields are required."});
     }else{
         const recipe : Recipe = {
             id: crypto.randomUUID(),
@@ -28,20 +28,20 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
         };
         await db.createRecipe(recipe);
 
-        for(let ingeredient of req.body.ingredients){
-            if(ingeredient == undefined || ingeredient.trim() === ""){
+        for(let ingredient of req.body.ingredients){
+            if(ingredient == undefined || ingredient.trim() === ""){
                 return res.status(400).send({error: "All ingredients are required"});
             }
         }
 
-        for(let ingeredient of req.body.ingredients){
-            ingeredient = ingeredient.trim().toLowerCase()
-            let currentIngredient = await db.getIngredient(ingeredient)
+        for(let ingredient of req.body.ingredients){
+            ingredient = ingredient.trim().toLowerCase()
+            let currentIngredient = await db.getIngredient(ingredient)
 
             if(!currentIngredient){
                 currentIngredient = {
                     id: crypto.randomUUID(),
-                    ingredientName: ingeredient
+                    ingredientName: ingredient
                 };
     
                 await db.createIngredient(currentIngredient);

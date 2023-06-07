@@ -148,7 +148,6 @@ export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGro
 
 export const listGroupMembers : ExpressHandlerWithParams<ListGroupMembersParam, ListGroupMembersRequest, ListGroupMembersResponse> = async (req, res) => {
     const groupId = req.params.id;
-    const userId = getUserId(req.headers.authorization);
     if(!groupId){
         return res.status(400).send({error: "Invalid Group Id"});
     }
