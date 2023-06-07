@@ -6,11 +6,11 @@ import crypto from 'crypto'
 import { SEED_GROUP_2, SEED_GROUP_3 } from "../datastore/sql/seed";
 
 export const createGroupHandler : ExpressHandler<CreateGroupRequest, CreateGroupResponse> = async (req, res) => {
-    if(!req.body.groupName || req.body.isPrivate === undefined){
+    if(!req.body.groupName || req.body.groupName.trim() == "" || req.body.isPrivate === undefined){
         return res.status(400).send({error: "GroupName and isPrivate are required"});
     }
 
-    if(req.body.isPrivate && !req.body.groupPass && req.body.groupPass?.trim() != ""){
+    if(req.body.isPrivate === true && (!req.body.groupPass || req.body.groupPass?.trim() == "")){
         return res.status(400).send({error: "Your Group is Private It Should have a Password"});
     }
 
