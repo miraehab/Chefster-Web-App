@@ -101,7 +101,9 @@ export class sqlDataStore implements DataStore{
     async createGroup(group: Group): Promise<void> {
         await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate, groupPass, createTime) VALUES (?, ?, ? ,?, ?, ?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate, group.groupPass, group.createTime);
         // To add the creator as the first member in the group
-        await this.createJoinGroup(group.id, group.groupCreatorId);
+        if(await this.checkIfMember(group.groupCreatorId, group.id)){
+            await this.createJoinGroup(group.id, group.groupCreatorId);
+        }
     }
     async getGroupById(id: string): Promise<Group | undefined> {
         return this.db.get<Group>('SELECT id, groupName, groupCreatorId, isPrivate, createTime FROM [Group] as g WHERE g.id = (?)', id);
@@ -120,6 +122,9 @@ export class sqlDataStore implements DataStore{
     }
     async deleteGroup(id: string): Promise<void> {
         await this.db.run('DELETE FROM [Group] as g WHERE g.id = (?)', id);
+    }
+    async listGroupMembers(groupId : string) : Promise<User[] | undefined>{
+        return await this.db.all<User[]>('SELECT id, firstName, lastName, username, email FROM JoinGroup as jg, User as u WHERE jg.groupId = (?)', groupId);
     }
 
     // JoinGroupDao Methods

@@ -10,7 +10,7 @@ import { authMiddleware } from "./middleware/authMiddleware";
 import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddleware'
 import { createLikeHandler } from "./handlers/likeHandler";
 import path from "path"
-import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
+import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listGroupMembers, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
 
 (async ()=>{
 
@@ -52,6 +52,7 @@ import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandl
     app.delete('/v1/groups/:id', asyncHandler(deleteGroupHandler))
     app.get('/v1/groups/:id', asyncHandler(getGroupHandler))
     app.post('/v1/groups/:id', asyncHandler(joinGroupHandler))
+    app.get('/v1/groups/:id/members', asyncHandler(listGroupMembers))
 
     app.use(errorHandler);
 

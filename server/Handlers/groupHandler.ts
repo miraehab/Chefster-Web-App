@@ -1,4 +1,4 @@
-import { CreateGroupRequest, CreateGroupResponse, DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, GetGroupParam, GetGroupRequest, GetGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse, joinGroupParam, joinGroupRequest, joinGroupResponse } from "../api";
+import { CreateGroupRequest, CreateGroupResponse, DeleteGroupParam, DeleteGroupRequest, DeleteGroupResponse, GetGroupParam, GetGroupRequest, GetGroupResponse, ListAllGroupsRequest, ListAllGroupsResponse, ListGroupMembersParam, ListGroupMembersRequest, ListGroupMembersResponse, ListUserCreatedGroupsRequest, ListUserCreatedGroupsResponse, ListUserJoinedGroupsRequest, ListUserJoinedGroupsResponse, joinGroupParam, joinGroupRequest, joinGroupResponse } from "../api";
 import { ExpressHandler, ExpressHandlerWithParams, Group } from "../types";
 import { db } from '../datastore'
 import { getUserId } from "../utils/getUserId";
@@ -144,4 +144,24 @@ export const joinGroupHandler : ExpressHandlerWithParams<joinGroupParam, joinGro
 
         return res.sendStatus(200);
     }
+}
+
+export const listGroupMembers : ExpressHandlerWithParams<ListGroupMembersParam, ListGroupMembersRequest, ListGroupMembersResponse> = async (req, res) => {
+    const groupId = req.params.id;
+    const userId = getUserId(req.headers.authorization);
+    if(!groupId){
+        return res.status(400).send({error: "Invalid Group Id"});
+    }
+
+    let members = await db.listGroupMembers(groupId);
+    if(!members){
+        return res.status(404).send({error: "Members Not Found."});
+    }
+
+    members = members.filter((item, index) => {
+        return index === members?.findIndex((obj) => {
+          return item.id === obj.id;
+        });});
+
+    return res.status(200).send({members});
 }

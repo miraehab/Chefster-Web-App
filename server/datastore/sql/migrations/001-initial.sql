@@ -60,6 +60,7 @@ CREATE TABLE [Group](
 CREATE TABLE JoinGroup(
  userId VARCHAR,
  groupId VARCHAR,
+ CONSTRAINT unique_constraint UNIQUE (userId, groupId),
  FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE CASCADE,
  FOREIGN KEY (groupId) REFERENCES [Group](id) ON DELETE CASCADE
 );

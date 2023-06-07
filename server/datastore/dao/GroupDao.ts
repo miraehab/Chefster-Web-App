@@ -1,4 +1,4 @@
-import {Group} from'../../types'
+import {Group, User} from'../../types'
 
 export interface GroupDao{
     createGroup(group : Group) : Promise<void>;
@@ -8,4 +8,5 @@ export interface GroupDao{
     listUserJoinedGroups(userId : string) : Promise<Group[] | undefined>;
     listUserCreatedGroups(userId: string) : Promise<Group[] | undefined>;
     deleteGroup(id : string) : Promise<void>;
+    listGroupMembers(groupId : string) : Promise<User[] | undefined>;
 }

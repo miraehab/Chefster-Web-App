@@ -108,3 +108,11 @@ export interface joinGroupRequest {
     groupPass : string;
 }
 export interface joinGroupResponse {}
+
+export interface ListGroupMembersParam {
+    id: string;
+}
+export interface ListGroupMembersRequest {}
+export interface ListGroupMembersResponse {
+    members : User[];
+}
