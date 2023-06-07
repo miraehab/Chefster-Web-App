@@ -66,4 +66,4 @@ Cook, share, and discover with Chefster
 
 <h2>API Documentation:</h2>
 
-You can Check the API Documentation --> <a href="https://github.com/miraehab/Chefster-Web-App/tree/main/server">Here</a>
+You can Check the API Documentation --> <a href="https://github.com/miraehab/Chefster-Web-App/blob/main/server/README.md">Here</a>
