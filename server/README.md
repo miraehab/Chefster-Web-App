@@ -132,6 +132,67 @@ Authenticates a user with the given login and password and returns a JSON Web To
     }
     ```
 
+## Get User
+
+Returns a user with the given id from the database.
+
++ URL
+
+  /v1/users/:id
+
++ Method
+
+  `GET`
+
++ URL Params
+
+  + Required:
+
+    `id=[string]`
+
++ Data Params
+
+  None
+
++ Success Response
+
+  + Code: 200 - OK
+  + Content:
+
+    ```json
+    {
+      "user": {
+        "firstName": [string],
+        "lastName": [string],
+        "username": [string],
+        "email": [string],
+        "id": [string]
+      }
+    }
+    ```
+
++ Error Response
+
+  + Code: 400 - Bad Request
+  + Content:
+
+    ```json
+    {
+      "error": "Invalid user"
+    }
+    ```
+
+  OR
+
+  + Code: 404 - Not Found
+  + Content:
+
+    ```json
+    {
+      "error": "User not found"
+    }
+    ```
+
 ## List All Recipes
 
 Returns a list of all recipes in the database.
