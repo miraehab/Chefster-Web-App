@@ -63,3 +63,7 @@ Cook, share, and discover with Chefster
 |--------|-----|
 | UserID | STRING/UUID |
 | GroupID | STRING/UUID |
+
+<h2>API Documentation:</h2>
+
+You can Check the API Documentation --> <a href="https://github.com/miraehab/Chefster-Web-App/blob/main/server/README.md">Here</a>
