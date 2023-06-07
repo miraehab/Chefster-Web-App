@@ -1,7 +1,7 @@
-import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from "../api";
+import { GetUserParam, GetUserRequest, GetUserResponse, SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from "../api";
 import { signJwt } from "../auth";
 import { db } from '../datastore'
-import { ExpressHandler, User } from "../types";
+import { ExpressHandler, ExpressHandlerWithParams, User } from "../types";
 import crypto from 'crypto';
 import { hashPassword } from "../utils/hashPassword";
 
@@ -58,4 +58,24 @@ export const signInHandler : ExpressHandler<SignInRequest, SignInResponse> = asy
         },
         jwt: jwt
     });
+}
+
+export const getUserHandler : ExpressHandlerWithParams<GetUserParam, GetUserRequest, GetUserResponse> = async (req, res) =>{
+    const userId = req.params.id;
+    if(!userId){
+        return res.status(400).send({error: "Invalid User."})
+    }
+
+    const user = await db.getUserById(userId);
+    if(!user){
+        return res.status(404).send({error: "User Not Found"});
+    }
+
+    res.status(200).send({user: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        id: user.id
+    }});
 }

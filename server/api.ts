@@ -39,6 +39,14 @@ export type SignInResponse = {
     jwt: string;
 }
 
+export interface GetUserParam {
+    id: string;
+}
+export interface GetUserRequest {}
+export interface GetUserResponse {
+    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
+}
+
 // Comment API
 export interface CreateCommentParam {
     recipeId : string;

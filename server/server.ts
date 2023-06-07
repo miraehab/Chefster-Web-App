@@ -3,7 +3,7 @@ import { db, initDb } from "./datastore/index"
 import { listAllRecipesHandler, createRecipeHandler, getRecipeHandler, deleteRecipeHandler } from "./handlers/recipeHandler"
 import { errorHandler } from './middleware/errorHandler'
 import asyncHandler from "express-async-handler"
-import { signUpHandler, signInHandler } from "./handlers/userHandler";
+import { signUpHandler, signInHandler, getUserHandler } from "./handlers/userHandler";
 import { createCommentHandler, listAllCommentsHandler, deleteCommentHandler } from "./handlers/commentHandler";
 import dotenv from 'dotenv'
 import { authMiddleware } from "./middleware/authMiddleware";
@@ -30,6 +30,8 @@ export const createServer = async (dbPath: string, logRequests: boolean) => {
   app.use(authMiddleware);
 
   // Protected Endpoints
+  app.get('/v1/users/:id', asyncHandler(getUserHandler))
+  
   app.get('/v1/recipes', asyncHandler(listAllRecipesHandler));
   app.post('/v1/recipes', asyncHandler(createRecipeHandler));
   app.get('/v1/recipes/:id', asyncHandler(getRecipeHandler));
