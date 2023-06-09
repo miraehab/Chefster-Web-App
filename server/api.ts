@@ -124,3 +124,12 @@ export interface ListGroupMembersRequest {}
 export interface ListGroupMembersResponse {
     members : User[];
 }
+
+//Cuisine Prediction
+export interface CuisinePredictionRequest {
+    ingredients: string[];
+}
+export interface CuisinePredictionResponse {
+    cuisine: string;
+    certaintyLevel: string;
+}

@@ -11,6 +11,7 @@ import { RequestLoggerMiddleware } from './middleware/requestLoggerMiddleware'
 import { createLikeHandler } from "./handlers/likeHandler";
 import path from "path"
 import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandler, listAllGroupsHandler, listGroupMembers, listUserCreatedGroupsHandler, listUserJoinedGroupsHandler } from "./handlers/groupHandler";
+import { cuisinePredictionHandler } from "./handlers/cuisinePrediction/cuisinePredictionHandler";
 
 (async ()=>{
 
@@ -25,7 +26,7 @@ import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandl
     app.use(express.json());
 
     app.use(RequestLoggerMiddleware);
-
+    app.post('/v1/cuisine/predict', asyncHandler(cuisinePredictionHandler))
     // Public Endpoints
     app.post('/v1/signup', asyncHandler(signUpHandler));
     app.post('/v1/signin', asyncHandler(signInHandler));
@@ -55,6 +56,7 @@ import { createGroupHandler, deleteGroupHandler, getGroupHandler, joinGroupHandl
     app.get('/v1/groups/:id', asyncHandler(getGroupHandler))
     app.post('/v1/groups/:id', asyncHandler(joinGroupHandler))
     app.get('/v1/groups/:id/members', asyncHandler(listGroupMembers))
+
 
     app.use(errorHandler);
 
