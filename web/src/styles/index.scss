@@ -74,8 +74,93 @@ a {
             }
         }
     }
+    .sidebar-btn{
+        height: 28px;
+        width: 30px;
+        position: relative;
+        display: none;
+        .bar{
+            border-radius: 5px;
+            height: 6px;
+            width: 100%;
+            background-color: #0A0A0A;
+            position: absolute;
+            &:nth-child(1) {
+                top: 0;
+            }
+
+            &:nth-child(2) {
+                top: 50%;
+                transform-origin: right;
+                transform: scaleX(.8) translateY(-50%);
+            }
+
+            &:nth-child(3) {
+                top: 100%;
+                transform-origin: right;
+                transform: scaleX(1.1) translateY(-100%);
+            }
+        }
+        &.active {
+            .bar {
+                transform-origin: center;
+                top: 50%;
+                &:nth-child(1) {
+                    transform: translate(0, -50%) scale(1) rotate(45deg);
+                }
+    
+                &:nth-child(2) {
+                    transform: scaleX(0) translateY(-50%);
+                }
+    
+                &:nth-child(3) {
+                    transform: translate(0, -50%) scaleX(1) rotate(-45deg);
+                }
+            }
+        }
+    }
+}
+
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+    background-color: var(--background-color);
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.2),
+            3px 0 5px var(--shadow-color);
+
+    .sidebar-link{
+        display: block;
+        padding: .5em 1em;
+        border-left: .4em solid transparent;
+        margin-bottom: 1em;
+        font-weight: bold;
+        &.active {
+            color: var(--primary-color);
+        }
+        &:hover {
+            border-left-color: var(--primary-color);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
 }
 
 .container {
     padding-inline: 10vw;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        .logo {
+            font-size: 1.2em;
+        }
+        .nav-links {
+            display: none;
+        }
+        .sidebar-btn{
+            display: block;
+        }
+    }
 }
