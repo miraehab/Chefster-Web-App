@@ -1,7 +1,5 @@
 <h1>API Documentation:</h1>
 
-# Users
-
 ## Sign Up
 
 Creates a new user account with the given information and returns a JSON Web Token (JWT) for authentication.
@@ -1146,5 +1144,65 @@ Returns a list of all members of a given group from the database.
     ```json
     {
       "error": "Members not found"
+    }
+    ```
+
+## Predict Cuisine
+
+Predicts the cuisine of a recipe based on the given ingredients using a machine learning classification model.
+
++ URL
+
+  /v1/cuisine/predict
+
++ Method
+
+  `POST`
+
++ URL Params
+
+  None
+
++ Data Params
+
+  + Required:
+
+    ```json
+    {
+      "ingredients": [array of strings]
+    }
+    ```
+
++ Success Response
+
+  + Code: 200 - OK
+  + Content:
+
+    ```json
+    {
+      "cuisine": [string],
+      "certaintyLevel": [string]
+    }
+    ```
+
++ Error Response
+
+  + Code: 400 - Bad Request
+  + Content:
+
+    ```json
+    {
+      "error": "The ingredients are required"
+    }
+    ```
+
+  OR
+
+  + Code: 400 - Bad Request
+  + Content:
+
+    ```json
+    {
+      "error": "Could not predict the cuisine"
     }
     ```
