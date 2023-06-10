@@ -22,8 +22,8 @@ for i in req:
         word += i
 
 # load the model from the file
-model = pickle.load(open("D:\mira\GitHub\Chefster-Web-App\server\handlers\cuisinePrediction\CuisineClassification.sav", 'rb'))
-columns = pd.read_csv('D:\mira\GitHub\Chefster-Web-App\server\handlers\cuisinePrediction\ingredients.csv')
+model = pickle.load(open("D:\mira\GitHub\Chefster-Web-App\server\handlers\cuisinePrediction\cuisineClassification1.sav", 'rb'))
+columns = pd.read_csv('D:\mira\GitHub\Chefster-Web-App\server\handlers\cuisinePrediction\ingredients_col.csv')
 data = pd.DataFrame(np.zeros((1, columns.shape[1])), columns = columns.columns)
 
 for i in ingredients:

@@ -9,7 +9,7 @@ export const cuisinePredictionHandler : ExpressHandler<CuisinePredictionRequest,
     return res.status(400).send({error: "The Ingredients are required"});
   }
   // get the input data for the prediction
-  const data = req.body.ingredients;
+  const data = (req.body.ingredients).flatMap((word) => word.split(' '));
   let cuisine = "", certaintyLevel = ""
   PythonShell.run('predict.py', {scriptPath:'./handlers/cuisinePrediction',pythonPath:"C:\/Users\/mirae\/anaconda3/python", args: [JSON.stringify(data)]}).then(message => {
     if(!message){
