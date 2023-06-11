@@ -1,22 +1,19 @@
 # Creating image #
 
 # parent image from docker hub
-#From node:20-alpine
-FROM nikolaik/python-nodejs:latest
+From node:20-alpine
 
-WORKDIR /server
+WORKDIR /web
 
-# copy the content of the current directory to server directory inside the docker image
+# copy the content of the current directory to web directory inside the docker image
 COPY . .
  
 # install dependencies
 RUN npm install
-RUN pip install pandas numpy
-RUN pip install -U scikit-learn
 
-# To specify the port on which our server will be listening
+# To specify the port on which our app will be listening
 # needed to run the container inside the docker desktop to do port mapping
-EXPOSE 3000
+EXPOSE 3001
 
 # As the image is not where we run our program it's just a blue-print for our container
 # So we use CMD not RUN

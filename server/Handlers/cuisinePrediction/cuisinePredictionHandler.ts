@@ -8,7 +8,7 @@ export const cuisinePredictionHandler : ExpressHandler<CuisinePredictionRequest,
   }
   // get the input data for the prediction
   const ingredients = (req.body.ingredients).flatMap((word) => word.split(' '));
-  PythonShell.run('predict.py', {scriptPath:'./handlers/cuisinePrediction',pythonPath:"C:\/Users\/mirae\/anaconda3/python", args: [JSON.stringify(ingredients)]}).then(message => {
+  PythonShell.run('predict.py', {scriptPath:'./handlers/cuisinePrediction',pythonPath: process.env.PYTHON_PATH || 'python', args: [JSON.stringify(ingredients)]}).then(message => {
     if(!message){
       return res.status(400).send({error: "Could not predict the cuisine."})
     }
