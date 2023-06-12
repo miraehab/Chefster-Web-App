@@ -16,7 +16,7 @@ RUN pip install -U scikit-learn
 
 # To specify the port on which our server will be listening
 # needed to run the container inside the docker desktop to do port mapping
-EXPOSE 3000
+EXPOSE 3001
 
 # As the image is not where we run our program it's just a blue-print for our container
 # So we use CMD not RUN

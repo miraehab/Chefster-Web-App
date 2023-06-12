@@ -1,3 +1,4 @@
+import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -5,7 +6,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <div className= "container main">
-
+        <HomePage/>
       </div>
     </div>
   );

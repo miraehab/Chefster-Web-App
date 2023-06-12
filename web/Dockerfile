@@ -13,7 +13,7 @@ RUN npm install
 
 # To specify the port on which our app will be listening
 # needed to run the container inside the docker desktop to do port mapping
-EXPOSE 3001
+EXPOSE 3000
 
 # As the image is not where we run our program it's just a blue-print for our container
 # So we use CMD not RUN
