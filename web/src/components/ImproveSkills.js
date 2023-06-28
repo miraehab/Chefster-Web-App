@@ -8,7 +8,7 @@ export default function ImproveSkills(){
                 <h1 className= "title">Improve your Culinary Skills</h1>
                 <p className= "skill-item">Learn New Recipes</p>
                 <p className= "skill-item">Experiment with Food</p>
-                <p className= "skill-item">Learn New Recipes</p>
+                <p className= "skill-item">Know Nutrition Facts</p>
                 <p className= "skill-item">Write your own Recipe</p>
                 <p className= "skill-item">Get Cooking Tips</p>
                 <button className="btn">Sign Up Now</button>

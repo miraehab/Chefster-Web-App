@@ -279,3 +279,33 @@ img {
         opacity: 1;
     }
 }
+
+// Recipe Card
+.card {
+    overflow: hidden;
+    box-shadow: 0 2px 20px #e1e5ee;
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 200ms ease-in;
+  
+    &__image {
+      height: 12rem;
+      width: 100%;
+      object-fit: cover;
+    }
+  
+    &__title {
+      padding: 1rem;
+    }
+  
+    &__cuisine {
+      padding: 0 1rem;
+    }
+  
+    &:hover {
+      transform: scale(1.02);
+    }
+}

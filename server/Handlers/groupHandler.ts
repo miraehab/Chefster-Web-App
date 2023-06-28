@@ -14,13 +14,16 @@ export const createGroupHandler : ExpressHandler<CreateGroupRequest, CreateGroup
         return res.status(400).send({error: "Your Group is Private It Should have a Password"});
     }
 
+    const dataUriToBuffer = require('data-uri-to-buffer');
+
     const group : Group = {
         id: crypto.randomUUID(),
         groupName: req.body.groupName,
         groupCreatorId: getUserId(req.headers.authorization),
         isPrivate: req.body.isPrivate,
         groupPass: req.body.groupPass? req.body.groupPass : "",
-        createTime: Date.now()
+        createTime: Date.now(),
+        image: new Uint8Array(dataUriToBuffer(req.body.image))
     }
 
     await db.createGroup(group);

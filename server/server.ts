@@ -18,9 +18,12 @@ export const createServer = async (dbPath: string, logRequests: boolean) => {
   dotenv.config();
   await initDb(":memory:");
 
-  const app = express();
+  const cors = require('cors')
+  const app = express();;
 
   app.use(express.json());
+  // Enable CORS for all routes
+  app.use(cors());
 
   // Public Endpoints
   app.post('/v1/signup', asyncHandler(signUpHandler));

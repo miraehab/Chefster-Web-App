@@ -21,9 +21,12 @@ import { cuisinePredictionHandler } from "./handlers/cuisinePrediction/cuisinePr
     //await initDb(path.join(__dirname, "datastore", "sql", "chefsterdb.sqlite"));
     await initDb(":memory:");
 
+    const cors = require('cors')
     const app = express();
 
     app.use(express.json());
+    // Enable CORS for all routes
+    app.use(cors());
 
     app.use(RequestLoggerMiddleware);
     // Public Endpoints

@@ -33,7 +33,7 @@ export class sqlDataStore implements DataStore{
 
     // UserDao Methods
     async createUser(user: User): Promise<void> {
-        await this.db.run('INSERT INTO User (id, firstName, lastName, username, password, email) VALUES (?, ?, ?, ?, ?, ?)', user.id, user.firstName, user.lastName, user.username, user.password, user.email)
+        await this.db.run('INSERT INTO User (id, firstName, lastName, username, password, email, image) VALUES (?, ?, ?, ?, ?, ?, ?)', user.id, user.firstName, user.lastName, user.username, user.password, user.email, user.image)
     }
     getUserByEmail(email: string): Promise<User | undefined> {
         return this.db.get<User>('SELECT *, userName as username FROM User as u WHERE u.email = (?)', email);
@@ -50,7 +50,7 @@ export class sqlDataStore implements DataStore{
         return this.db.all<Recipe[]>('SELECT * FROM Recipe');
     }
     async createRecipe(recipe: Recipe): Promise<void> {
-        await this.db.run('INSERT INTO Recipe (id, title, instruction, cuisine, userId, postedAt) VALUES (?, ?, ?, ?, ?, ?)', recipe.id, recipe.title, recipe.instructions, recipe.cuisine, recipe.userId, recipe.postedAt);
+        await this.db.run('INSERT INTO Recipe (id, title, instruction, cuisine, userId, postedAt, image) VALUES (?, ?, ?, ?, ?, ?, ?)', recipe.id, recipe.title, recipe.instructions, recipe.cuisine, recipe.userId, recipe.postedAt, recipe.image);
     }
     getRecipeById(id: string): Promise<Recipe | undefined> {
         return this.db.get<Recipe>('SELECT * FROM Recipe as r WHERE r.id = (?)', id);
@@ -99,7 +99,7 @@ export class sqlDataStore implements DataStore{
 
     // GroupDao Methods
     async createGroup(group: Group): Promise<void> {
-        await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate, groupPass, createTime) VALUES (?, ?, ? ,?, ?, ?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate, group.groupPass, group.createTime);
+        await this.db.run('INSERT INTO [Group] (id, groupName, groupCreatorId, isPrivate, groupPass, createTime, image) VALUES (?, ?, ? ,?, ?, ?, ?)', group.id, group.groupName, group.groupCreatorId, group.isPrivate, group.groupPass, group.createTime, group.image);
         // To add the creator as the first member in the group
         if(await this.checkIfMember(group.groupCreatorId, group.id)){
             await this.createJoinGroup(group.id, group.groupCreatorId);
@@ -112,19 +112,19 @@ export class sqlDataStore implements DataStore{
         return this.db.get<Group>('SELECT id, groupName, groupCreatorId, isPrivate, createTime FROM [Group] as g WHERE g.groupPass = (?)', groupPass);
     }
     async listAllGroups(): Promise<Group[] | undefined> {
-        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime FROM [Group] as g WHERE g.isPrivate = 0');
+        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime, image FROM [Group] as g WHERE g.isPrivate = 0');
     }
     async listUserJoinedGroups(userId: string): Promise<Group[] | undefined> {
-        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime FROM [Group] as g WHERE g.id in (SELECT groupId FROM JoinGroup as jg WHERE jg.userId = (?))', userId);
+        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime, image FROM [Group] as g WHERE g.id in (SELECT groupId FROM JoinGroup as jg WHERE jg.userId = (?))', userId);
     }
     async listUserCreatedGroups(userId: string) : Promise<Group[] | undefined>{
-        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime FROM [Group] as g WHERE g.groupCreatorId = (?)', userId);
+        return await this.db.all<Group[]>('SELECT id, groupName, groupCreatorId, isPrivate, createTime, image FROM [Group] as g WHERE g.groupCreatorId = (?)', userId);
     }
     async deleteGroup(id: string): Promise<void> {
         await this.db.run('DELETE FROM [Group] as g WHERE g.id = (?)', id);
     }
     async listGroupMembers(groupId : string) : Promise<User[] | undefined>{
-        return await this.db.all<User[]>('SELECT id, firstName, lastName, username, email FROM JoinGroup as jg, User as u WHERE jg.groupId = (?)', groupId);
+        return await this.db.all<User[]>('SELECT id, firstName, lastName, username, email, image FROM JoinGroup as jg, User as u WHERE jg.groupId = (?)', groupId);
     }
 
     // JoinGroupDao Methods

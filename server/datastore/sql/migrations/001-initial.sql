@@ -4,7 +4,8 @@ CREATE TABLE [User](
  lastName VARCHAR NOT NULL,
  username VARCHAR UNIQUE NOT NULL,
  password VARCHAR NOT NULL,
- email VARCHAR UNIQUE
+ email VARCHAR UNIQUE,
+ image BLOB
 );
 
 CREATE TABLE Recipe(
@@ -14,6 +15,7 @@ CREATE TABLE Recipe(
  cuisine VARCHAR NOT NULL,
  userId VARCHAR NOT NULL,
  postedAt INTEGER NOT NULL,
+ image BLOB,
  FOREIGN KEY (userId) REFERENCES [User](id) ON DELETE SET NULL
 );
 
@@ -54,6 +56,7 @@ CREATE TABLE [Group](
  isPrivate BOOLEAN NOT NULL,
  groupPass VARCHAR,
  createTime INTEGER NOT NULL,
+ image BLOB,
  FOREIGN KEY (groupCreatorID) REFERENCES [User](id)
 );
 

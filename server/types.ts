@@ -6,7 +6,8 @@ export interface User{
     lastName: string;
     username: string;
     password: string;
-    email: string
+    email: string;
+    image: Uint8Array
 }
 
 export interface Recipe{
@@ -15,7 +16,8 @@ export interface Recipe{
     instructions: string;
     cuisine: string;
     userId: string;
-    postedAt: number
+    postedAt: number;
+    image: Uint8Array
 }
 
 export interface Ingredient{
@@ -48,7 +50,8 @@ export interface Group{
     groupCreatorId: string;
     isPrivate: boolean;
     groupPass: string;
-    createTime: number
+    createTime: number;
+    image: Uint8Array
 }
 
 export interface JoinGroup{

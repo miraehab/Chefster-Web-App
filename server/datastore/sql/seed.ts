@@ -12,7 +12,8 @@ export const SEED_USER: User = {
   lastName: "Smith",
   username: "alice123",
   password: "", // hashPassword(SEED_USER_PASSWORD)
-  email: "alice@gmail.com"
+  email: "alice@gmail.com",
+  image: new Uint8Array()
 };
 
 export const SEED_USER_PASSWORD2 = "SeedUserPassword2";
@@ -23,7 +24,8 @@ export const SEED_USER_2: User = {
   lastName: "Jones",
   username: "bob456",
   password: "", // hashPassword(SEED_USER_PASSWORD2)
-  email: "bob@yahoo.com"
+  email: "bob@yahoo.com",
+  image: new Uint8Array()
 };
 
 export const SEED_USER_PASSWORD3 = "SeedUserPassword3";
@@ -34,7 +36,8 @@ export const SEED_USER_3: User = {
   lastName: "Brown",
   username: "charlie789",
   password: "", // hashPassword(SEED_USER_PASSWORD3)
-  email: "charlie@hotmail.com"
+  email: "charlie@hotmail.com",
+  image: new Uint8Array()
 };
 
 // create some dummy ingredients
@@ -100,7 +103,8 @@ export const SEED_RECIPE_1: Recipe = {
   5. Let bread cool slightly in pan, then transfer to a wire rack to cool completely.`,
     cuisine: "American",
     userId: SEED_USER.id,
-    postedAt: Date.now()
+    postedAt: Date.now(),
+    image: new Uint8Array()
   };
   
 export const SEED_RECIPE_2: Recipe = {
@@ -114,7 +118,8 @@ export const SEED_RECIPE_2: Recipe = {
     5. Let cookies cool on baking sheets for 5 minutes, then transfer to a wire rack to cool completely.`,
     cuisine: "American",
     userId: SEED_USER_2.id,
-    postedAt: Date.now()
+    postedAt: Date.now(),
+    image: new Uint8Array()
 };
 
 export const SEED_RECIPE_3: Recipe = {
@@ -128,7 +133,8 @@ export const SEED_RECIPE_3: Recipe = {
     5. Unwrap bread and serve hot or warm.`,
     cuisine: "European",
     userId: SEED_USER_3.id,
-    postedAt: Date.now()
+    postedAt: Date.now(),
+    image: new Uint8Array()
 };
 
 // create some dummy recipe ingredients
@@ -272,7 +278,8 @@ export const SEED_GROUP_1: Group = {
     groupCreatorId: SEED_USER.id,
     isPrivate: false,
     groupPass: "",
-    createTime: Date.now()
+    createTime: Date.now(),
+    image: new Uint8Array()
 };
 
 export const SEED_Group_2_PASSWORD = "SeedGroupPassword2";
@@ -282,7 +289,8 @@ export const SEED_GROUP_2: Group = {
     groupCreatorId: SEED_USER_2.id,
     isPrivate: true,
     groupPass: "",
-    createTime: Date.now()
+    createTime: Date.now(),
+    image: new Uint8Array()
 };
 
 export const SEED_GROUP_3: Group = {
@@ -291,7 +299,8 @@ export const SEED_GROUP_3: Group = {
     groupCreatorId: SEED_USER_3.id,
     isPrivate: false, 
     groupPass: "",
-    createTime: Date.now()
+    createTime: Date.now(),
+    image: new Uint8Array()
 };
 
 // create some dummy join groups

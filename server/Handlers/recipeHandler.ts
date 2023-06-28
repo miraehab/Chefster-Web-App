@@ -18,13 +18,16 @@ export const createRecipeHandler : ExpressHandler<CreateRecipeRequest, CreateRec
     if(!req.body.title || !req.body.instructions || !req.body.cuisine || !req.body.ingredients || req.body.title.trim() === ""){
         return res.status(400).send({error: "All Fields are required."});
     }else{
+        const dataUriToBuffer = require('data-uri-to-buffer');
+
         const recipe : Recipe = {
             id: crypto.randomUUID(),
             postedAt: Date.now(),
             title: req.body.title,
             instructions: req.body.instructions,
             cuisine: req.body.cuisine,
-            userId: getUserId(req.headers.authorization)
+            userId: getUserId(req.headers.authorization),
+            image: new Uint8Array(dataUriToBuffer(req.body.image))
         };
         await db.createRecipe(recipe);
 
@@ -91,7 +94,7 @@ export const deleteRecipeHandler : ExpressHandlerWithParams<DeleteRecipeParam, D
         return res.status(404).send({error: "You should Delete an existed recipe"});
     }
 
-    // To check that the user who wants to delte the recipe is the same who posted it
+    // To check that the user who wants to delete the recipe is the same who posted it
     if(recipe.userId !== userId){
         return res.status(400).send({error: "You should delete your own recipe!"});
     }

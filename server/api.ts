@@ -6,7 +6,7 @@ export interface ListAllRecipesResponse {
     recipes: Recipe[];
 }
 
-export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine'> & {ingredients: string[]};
+export type CreateRecipeRequest = Pick<Recipe, 'title' | 'instructions' | 'cuisine' | 'image'> & {ingredients: string[]};
 export interface CreateRecipeResponse {}
 
 export interface GetRecipeParam {
@@ -25,7 +25,7 @@ export interface DeleteRecipeResponse {}
 
     
 //Users API
-export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email'>;
+export type SignUpRequest = Pick<User, 'firstName' | 'lastName' | 'username' | 'password' | 'email' | 'image'>;
 export interface SignUpResponse {
     jwt : string;
 }
@@ -35,7 +35,7 @@ export interface SignInRequest {
     password: string;
 }
 export type SignInResponse = {
-    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
+    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id' | 'image'>;
     jwt: string;
 }
 
@@ -44,7 +44,7 @@ export interface GetUserParam {
 }
 export interface GetUserRequest {}
 export interface GetUserResponse {
-    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id'>;
+    user: Pick<User, 'firstName' | 'lastName' | 'username' | 'email' | 'id' | 'image'>;
 }
 
 // Comment API
@@ -77,7 +77,7 @@ export interface CreateLikeRequest {}
 export interface CreateLikeResponse {}
 
 // Group API
-export type CreateGroupRequest = Pick<Group, 'groupName' | 'isPrivate' | 'groupPass'>;
+export type CreateGroupRequest = Pick<Group, 'groupName' | 'isPrivate' | 'groupPass' | 'image'>;
 export interface CreateGroupResponse {}
 
 export interface ListAllGroupsRequest {}
