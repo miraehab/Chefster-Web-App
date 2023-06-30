@@ -1,3 +1,4 @@
+import GroupsPage from "./components/GroupsPage";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/Navbar";
 import RecipesPage from "./components/RecipesPage";
@@ -7,7 +8,7 @@ function App() {
     <div className="App">
       <Navbar/>
       <div className= "container main">
-        <RecipesPage/>
+        <GroupsPage/>
       </div>
     </div>
   );

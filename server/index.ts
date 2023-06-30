@@ -34,7 +34,7 @@ import { cuisinePredictionHandler } from "./handlers/cuisinePrediction/cuisinePr
     app.post('/v1/signin', asyncHandler(signInHandler));
 
     // Any action after sign up needs authentication
-    app.use(authMiddleware);
+    //app.use(authMiddleware);
 
     // Protected Endpoints
     app.get('/v1/users/:id', asyncHandler(getUserHandler))
