@@ -32,6 +32,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.5%;
 }
 
 .navbar .logo {
@@ -40,6 +41,7 @@ a {
   color: var(--text-color);
   text-decoration: none;
   text-shadow: 0 1px 3px var(--shadow-color);
+  margin-left: 6%;
 }
 
 .navbar .logo span {
@@ -124,6 +126,10 @@ a {
   transform: translate(0, -50%) scaleX(1) rotate(-45deg);
 }
 
+.nav-links {
+  margin-right: 4%;
+}
+
 .side-bar {
   position: fixed;
   top: 0;
@@ -152,18 +158,14 @@ a {
 }
 
 .container {
-  padding-inline: 5vw;
   max-width: 1600px;
-}
-
-.main {
-  padding-block: 3vw;
 }
 
 .section {
   display: flex;
   align-items: center;
   margin-bottom: 1vw;
+  margin-top: 5%;
 }
 
 .section .col {
@@ -338,6 +340,14 @@ img {
   color: white;
 }
 
+.recipes-page {
+  padding: 3%;
+}
+
+.groups-page {
+  padding: 3%;
+}
+
 .group {
   overflow: hidden;
   box-shadow: 0 2px 20px #e1e5ee;
@@ -390,12 +400,14 @@ img {
 }
 
 .Auth-form {
-  width: 420px;
+  width: 40%;
   box-shadow: var(--shadow-color) 1px 1px 10px;
   padding-top: 30px;
   padding-bottom: 20px;
   border-radius: 8px;
   background-color: white;
+  margin-top: -5%;
+  margin-left: -4%;
 }
 
 .Auth-form-content {

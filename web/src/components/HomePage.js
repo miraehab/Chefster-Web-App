@@ -2,7 +2,7 @@ import ImproveSkills from "./ImproveSkills"
 
 export default function HomePage() { 
     return(
-        <>
+        <div className="container">
             <div className= "section home">
                 <div className= "col">
                     <h1 className= "title">Cook, share, and discover with Chefster</h1>
@@ -39,6 +39,6 @@ export default function HomePage() {
                 </div>
             </div>
             <ImproveSkills/>
-        </>
+        </div>
     )
 }

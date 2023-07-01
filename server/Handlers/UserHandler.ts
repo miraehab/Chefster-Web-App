@@ -6,7 +6,7 @@ import crypto from 'crypto';
 import { hashPassword } from "../utils/hashPassword";
 
 export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = async (req, res) => {
-    if(!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || !req.body.username || !req.body.image){
+    if(!req.body.email || !req.body.firstName || !req.body.lastName || !req.body.password || !req.body.username){
         return res.status(400).send({error: "All Fields are required"});
     }
 
@@ -16,7 +16,6 @@ export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = asy
     }
 
     const passwordHash = hashPassword(req.body.password)
-    const dataUriToBuffer = require('data-uri-to-buffer');
 
     const user : User = {
         id: crypto.randomUUID(),
@@ -25,7 +24,7 @@ export const signUpHandler : ExpressHandler<SignUpRequest, SignUpResponse> = asy
         lastName: req.body.lastName,
         password: passwordHash,
         username: req.body.username,
-        image: new Uint8Array(dataUriToBuffer(req.body.image))
+        image: new Uint8Array()
     };
 
     await db.createUser(user);

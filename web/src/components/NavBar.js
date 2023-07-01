@@ -3,6 +3,7 @@ import Sidebar from './Sidebar'
 
 export default function Navbar(){
     const [showSidebar, setShowSidebar] = useState(false)
+    const token = localStorage.getItem("token");
     const links = [
         {
             name: "Home",
@@ -24,19 +25,21 @@ export default function Navbar(){
             name: "Settings",
             path: "/settings"
         },
-        {
-            name: "Sign In",
-            path: "/signin"
-        }
+        (token)?{name: "Log Out", path: "/signin"} : {name: "Sign In", path: "/signin"}
     ]
+
+    const logOut = (e) => {
+        localStorage.removeItem("token");
+    };
+
     return(
         <>
             <div className= "navbar container">
-                <a href="#!" className= "logo"><span>Chef</span>ster</a>
+                <a href="/" className= "logo"><span>Chef</span>ster</a>
                 <div className= "nav-links">
                     {
                         links.map(link => (
-                            <a href={links.path} key={link.name}>{link.name}</a>
+                            (link.name == "Log Out")? <a href={link.path} key={link.name} onClick={logOut}>{link.name}</a> : <a href={link.path} key={link.name}>{link.name}</a>
                         ))
                     }
                 </div>
